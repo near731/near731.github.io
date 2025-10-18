@@ -3,7 +3,7 @@ title: "Your Name"
 email: "your-email@example.com"
 
 # GitHub Pages settings
-baseurl: "near731.github.io"
+baseurl: ""
 url: "https://near731.github.io"  
 
 theme: null
