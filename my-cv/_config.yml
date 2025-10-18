@@ -1,5 +1,9 @@
-title: Áron Imre Németh
-email: aron_imre.nemeth@tum.de
-baseurl: ""
-url: ""
+# Site settings
+title: "Your Name"
+email: "your-email@example.com"
+
+# GitHub Pages settings
+baseurl: "near731.github.io"
+url: "https://near731.github.io"  
+
 theme: null
