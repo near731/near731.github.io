@@ -2,23 +2,21 @@
 body {
   font-family: 'Inter', sans-serif;
   margin: 0;
-  background-color: #0d1b2a;  
-  color: #ffffff;            
-  font-size: 16px;
-  line-height: 1.5;
+  background-color: #0d1b2a;  /* dark blue-black */
+  color: #ffffff;            /* white text */
 }
 
 main {
   max-width: 1080px;
   margin: auto;
   padding: 2rem;
-  background-color: rgba(255, 255, 255, 0.05);
+  background-color: rgba(255, 255, 255, 0.05); /* soft overlay for contrast */
   border-radius: 12px;
 }
 
 /* ===== HEADER / NAVIGATION ===== */
 header {
-  background-color: #0b1622;
+  background-color: #0b1622; /* slightly darker than background */
   color: white;
   display: flex;
   justify-content: space-between;
@@ -27,7 +25,6 @@ header {
   position: sticky;
   top: 0;
   z-index: 1000;
-  flex-wrap: wrap;
 }
 
 header h1 {
@@ -39,26 +36,8 @@ header h1 {
   color: #ffffff;           
 }
 
-.top-nav {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 1rem;
-}
-
-.top-nav a {
-  color: white;
-  text-decoration: none;
-  font-weight: bold;
-  transition: color 0.3s ease;
-}
-
-.top-nav a:hover {
-  text-decoration: underline;
-  color: #778da9;
-}
-
 footer a {
-  color: #778da9;
+  color: #778da9;  /* accent color */
   margin: 0 0.5rem;
   text-decoration: none;
   vertical-align: middle;
@@ -71,6 +50,19 @@ footer a:hover {
 footer svg {
   vertical-align: middle;
   margin-right: 0.3rem;
+}
+
+.top-nav a {
+  color: white;
+  margin-left: 1rem;
+  text-decoration: none;
+  font-weight: bold;
+  transition: color 0.3s ease;
+}
+
+.top-nav a:hover {
+  text-decoration: underline;
+  color: #778da9; /* soft accent color */
 }
 
 /* ===== HERO SECTION ===== */
@@ -111,168 +103,253 @@ footer svg {
   display: inline-block;
   padding: 1.6rem 2.8rem;
   margin: 0 0.5rem;
-  background-color: #415a77;
+  background-color: #415a77;  /* unified blue-gray tone */
   color: white;
   border-radius: 5px;
   text-decoration: none;
-  font-size: 1.2rem;
-  font-weight: 600;
+  font-size: 1.2rem;   /* 👈 change this value */
+  font-weight: 600;    /* optional: make it bolder */
   transition: background 0.3s ease, transform 0.2s ease;
 }
 
 .btn:hover {
   background-color: #778da9;
-  transform: translateY(-2px);
+  transform: translateY(-2px);  /* subtle lift effect */
 }
 
-/* ===== CARDS (EDUCATION / EXPERIENCE / SKILLS) ===== */
-.education-container, .experience-container, .skills-container {
+.education-container {
   display: flex;
-  flex-wrap: wrap;
+  flex-direction: column;
   gap: 1rem;
-  justify-content: center;
 }
 
-.edu-card, .exp-card, .skill-card {
+/* Individual cards */
+.edu-card {
   background-color: rgba(255, 255, 255, 0.05);
   padding: 1rem 1.5rem;
   border-radius: 10px;
   transition: transform 0.3s ease, background-color 0.3s ease;
   cursor: pointer;
   overflow: hidden;
-  width: 220px;
-  max-height: 80px;
+  max-height: 80px; /* collapsed height */
   position: relative;
 }
 
-.edu-card:hover, .exp-card:hover, .skill-card:hover {
-  transform: scale(1.05);
-  background-color: rgba(255, 255, 255, 0.1);
-  max-height: 500px;
+/* Card styling */
+.edu-card {
+  background-color: rgba(255, 255, 255, 0.05);
+  padding: 1rem 1.5rem;
+  border-radius: 10px;
+  transition: transform 0.3s ease, background-color 0.3s ease;
+  cursor: pointer;
+  overflow: hidden;
+  max-height: 80px; /* collapsed height */
+  position: relative;
+  margin-bottom: 1rem;
 }
 
-/* Header inside card */
-.edu-header, .exp-header, .skill-header {
+/* Card expands on hover */
+.edu-card:hover {
+  transform: scale(1.02);
+  background-color: rgba(255, 255, 255, 0.1);
+  max-height: 500px; /* expanded height */
+}
+
+/* Header: logo + text */
+.edu-header {
   display: flex;
   align-items: center;
-  gap: 1rem;
+  gap: 1rem; /* space between logo and text */
 }
 
-.university-logo, .company-logo, .skill-icon {
-  width: 60px;
+/* University logo */
+.university-logo {
+  width: 60px;   /* big logo */
   height: 60px;
 }
 
-.edu-text h3, .exp-text h3, .skill-text h3 {
+/* Text next to logo */
+.edu-text h3 {
   margin: 0;
   font-size: 1.2rem;
 }
 
-.edu-text span, .exp-text span {
+.edu-text span {
   font-size: 0.95rem;
   color: #cccccc;
-  display: block;
+  display: block; /* separate line */
 }
 
-/* Details inside card */
-.edu-details, .exp-details, .skill-details {
+/* Hide details initially */
+.edu-details {
   opacity: 0;
   max-height: 0;
   transition: opacity 0.3s ease, max-height 0.3s ease;
   margin-top: 0.5rem;
 }
 
-.edu-card:hover .edu-details,
-.exp-card:hover .exp-details,
-.skill-card:hover .skill-details {
+/* Show details on hover */
+.edu-card:hover .edu-details {
   opacity: 1;
   max-height: 500px;
 }
 
-.edu-details ul, .exp-details ul, .skill-details ul {
+/* Bullet list for details */
+.edu-details ul {
+  list-style-type: disc;
+  margin: 0.5rem 0 0 1.5rem; /* indent bullets */
+  padding: 0;
+}
+
+.edu-details li {
+  margin-bottom: 0.3rem;
+}
+
+/* Card styling */
+.exp-card {
+  background-color: rgba(255, 255, 255, 0.05);
+  padding: 1rem 1.5rem;
+  border-radius: 10px;
+  transition: transform 0.3s ease, background-color 0.3s ease;
+  cursor: pointer;
+  overflow: hidden;
+  max-height: 80px; /* collapsed height */
+  position: relative;
+  margin-bottom: 1rem;
+}
+
+/* Card expands on hover */
+.exp-card:hover {
+  transform: scale(1.02);
+  background-color: rgba(255, 255, 255, 0.1);
+  max-height: 500px; /* expanded height */
+}
+
+/* Header: logo + text */
+.exp-header {
+  display: flex;
+  align-items: center;
+  gap: 1rem; /* space between logo and text */
+}
+
+/* Company logo */
+.company-logo {
+  width: 60px;   /* adjust size as needed */
+  height: 60px;
+}
+
+/* Text next to logo */
+.exp-text h3 {
+  margin: 0;
+  font-size: 1.2rem;
+}
+
+.exp-text span {
+  font-size: 0.95rem;
+  color: #cccccc;
+  display: block; /* separate line */
+}
+
+/* Hide details initially */
+.exp-details {
+  opacity: 0;
+  max-height: 0;
+  transition: opacity 0.3s ease, max-height 0.3s ease;
+  margin-top: 0.5rem;
+}
+
+/* Show details on hover */
+.exp-card:hover .exp-details {
+  opacity: 1;
+  max-height: 500px;
+}
+
+/* Bullet list for details */
+.exp-details ul {
   list-style-type: disc;
   margin: 0.5rem 0 0 1.5rem;
   padding: 0;
 }
 
-.edu-details li, .exp-details li, .skill-details li {
+.exp-details li {
   margin-bottom: 0.3rem;
 }
 
-/* ===== RESPONSIVE / MOBILE ===== */
-@media (max-width: 1024px) {
-  main {
-    padding: 1.5rem;
-  }
-
-  .hero-text h1 {
-    font-size: 2rem;
-  }
-
-  .hero-text p {
-    font-size: 1.4rem;
-  }
+/* Skills container */
+.skills-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  justify-content: center;
 }
 
-@media (max-width: 768px) {
-  header {
-    flex-direction: column;
-    align-items: flex-start;
-    padding: 1rem;
-  }
+/* Individual skill card */
+.skill-card {
+  background-color: rgba(255, 255, 255, 0.05);
+  border-radius: 10px;
+  padding: 1rem 1.5rem;
+  width: 220px;
+  transition: transform 0.3s ease, background-color 0.3s ease;
+  cursor: pointer;
+  overflow: hidden;
+}
 
-  .top-nav {
-    width: 100%;
-    justify-content: flex-start;
-    flex-wrap: wrap;
-  }
+/* Hover effect */
+.skill-card:hover {
+  transform: scale(1.05);
+  background-color: rgba(255, 255, 255, 0.1);
+}
 
-  .top-nav a {
-    margin: 0.25rem 0.5rem 0 0;
-  }
+/* Skill header: icon + title */
+.skill-header {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
 
-  .hero img.profile-pic {
-    width: 200px;
-    height: 200px;
-  }
+/* Skill icon */
+.skill-icon {
+  width: 40px;
+  height: 40px;
+}
 
-  .hero-text h1 {
-    font-size: 1.8rem;
-  }
+/* Skill title */
+.skill-text h3 {
+  margin: 0;
+  font-size: 1.15rem;
+}
 
-  .hero-text p {
-    font-size: 1.2rem;
-  }
+/* Skill details: hidden initially */
+.skill-details {
+  opacity: 0;
+  max-height: 0;
+  transition: opacity 0.3s ease, max-height 0.3s ease;
+  margin-top: 0.5rem;
+}
 
+/* Show details on hover */
+.skill-card:hover .skill-details {
+  opacity: 1;
+  max-height: 200px;
+}
+
+/* Bullet list */
+.skill-details ul {
+  list-style-type: disc;
+  margin: 0.5rem 0 0 1.5rem;
+  padding: 0;
+}
+
+.skill-details li {
+  margin-bottom: 0.3rem;
+}
+
+
+/* ===== RESPONSIVE ===== */
+@media (max-width: 600px) {
   .btn {
     display: block;
     margin: 0.5rem auto;
     width: 80%;
-    font-size: 1rem;
-    padding: 1rem 2rem;
-  }
-
-  .edu-card, .exp-card, .skill-card {
-    width: 100%;
-    max-height: none;
-  }
-}
-
-@media (max-width: 480px) {
-  body {
-    font-size: 14px;
-  }
-
-  .hero img.profile-pic {
-    width: 150px;
-    height: 150px;
-  }
-
-  .hero-text h1 {
-    font-size: 1.5rem;
-  }
-
-  .hero-text p {
-    font-size: 1rem;
   }
 }
