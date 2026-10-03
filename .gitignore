@@ -1,5 +1,35 @@
+# Legacy Jekyll (remove with the legacy cleanup)
 _site
 .sass-cache
 .jekyll-cache
 .jekyll-metadata
 vendor
+
+# Node / Vite
+node_modules
+dist
+dist-ssr
+*.local
+coverage
+*.tsbuildinfo
+
+# Playwright
+test-results
+playwright-report
+playwright/.cache
+
+# Logs
+npm-debug.log*
+
+# Editors / OS
+.vscode/*
+!.vscode/extensions.json
+.idea
+.DS_Store
+Thumbs.db
+
+# Agent local state
+.claude/settings.local.json
+
+# Private originals (e.g. CV with cover letter page)
+private/

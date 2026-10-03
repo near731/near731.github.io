@@ -1,0 +1,38 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Áron Imre Németh | Robotics & Deep Learning</title>
+    <meta
+      name="description"
+      content="Áron Imre Németh: Master's student in Robotics at TU Munich, working on deep learning, reinforcement learning and control."
+    />
+    <meta name="author" content="Áron Imre Németh" />
+    <meta name="color-scheme" content="light dark" />
+    <link rel="canonical" href="https://near731.github.io/" />
+    <meta property="og:site_name" content="Áron Imre Németh" />
+    <meta property="og:title" content="Áron Imre Németh | Robotics & Deep Learning" />
+    <meta
+      property="og:description"
+      content="Master's student in Robotics at TU Munich: deep learning, reinforcement learning and control."
+    />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://near731.github.io/" />
+    <script>
+      // Set the theme class before React mounts to avoid a flash.
+      ;(function () {
+        try {
+          var stored = localStorage.getItem('theme')
+          var dark = stored ? stored === 'dark' : matchMedia('(prefers-color-scheme: dark)').matches
+          if (dark) document.documentElement.classList.add('dark')
+        } catch (e) {}
+      })()
+    </script>
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="module" src="/src/main.tsx"></script>
+  </body>
+</html>
