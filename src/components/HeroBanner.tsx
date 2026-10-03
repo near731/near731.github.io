@@ -1,5 +1,5 @@
 import type { Project } from '@/data/projects'
-import { MppiDiagram } from './MppiDiagram'
+import { VideoClip } from './VideoClip'
 
 const STRIP_BG =
   'linear-gradient(to top, rgb(8 15 30 / 0.92) 0%, rgb(8 15 30 / 0.78) 55%, rgb(8 15 30 / 0) 100%)'
@@ -39,18 +39,19 @@ function BannerText({ project, compact }: { project: Project; compact: boolean }
 }
 
 /**
- * Hero figure with a dark banner (kicker, title, key numbers). `overlay` draws the banner over
- * the bottom of the image, `stacked` puts it under the figure. `compact` is the card cover.
+ * Hero figure (image or looping clip) with a dark banner showing kicker, title and key numbers.
+ * `overlay` draws the banner over the bottom of the image, `stacked` puts it under the figure.
+ * `compact` is the card cover on the overview page.
  */
 export function HeroBanner({ project, compact = false }: { project: Project; compact?: boolean }) {
   const banner = project.banner
   if (!banner) return null
-  const isDiagram = project.diagram === 'mppi-flow'
+  const video = compact ? undefined : project.heroVideo
   const image = compact ? (project.cover ?? project.hero) : project.hero
   const [start, end] = banner.endLabels ?? []
 
-  const media = isDiagram ? (
-    <MppiDiagram compact={compact} />
+  const media = video ? (
+    <VideoClip video={video} hero />
   ) : image ? (
     <img
       src={image.src}
@@ -105,23 +106,13 @@ export function HeroBanner({ project, compact = false }: { project: Project; com
       </div>
     )
   }
-  const bar = (
-    <div
-      className={`rounded-xl bg-slate-900 px-5 py-4 text-white sm:px-6 ${isDiagram ? 'mb-3' : 'mt-3'}`}
-    >
-      <BannerText project={project} compact={false} />
-    </div>
-  )
   return (
     <figure>
-      {isDiagram && bar}
-      {isDiagram ? (
-        media
-      ) : (
-        <div className="overflow-hidden rounded-xl border border-line bg-white">{media}</div>
-      )}
-      {!isDiagram && bar}
-      {!isDiagram && image?.caption && (
+      <div className="overflow-hidden rounded-xl border border-line bg-white">{media}</div>
+      <div className="mt-3 rounded-xl bg-slate-900 px-5 py-4 text-white sm:px-6">
+        <BannerText project={project} compact={false} />
+      </div>
+      {!video && image?.caption && (
         <figcaption className="mt-2 text-sm text-muted">{image.caption}</figcaption>
       )}
     </figure>

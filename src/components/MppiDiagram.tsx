@@ -33,23 +33,7 @@ function Arrow() {
  * Redrawn from the owner's report figure: state -> two proposal sources -> parallel rollouts ->
  * cost and elite selection -> executed action, closing the loop through the state update.
  */
-export function MppiDiagram({ compact = false }: { compact?: boolean }) {
-  if (compact) {
-    return (
-      <div className="flex h-full w-full flex-col items-center justify-center gap-2 p-4 text-center">
-        <p className="font-mono text-sm uppercase tracking-widest text-accent">Planner loop</p>
-        <p className="text-base font-medium">Flow prior + CEM sampling</p>
-        <span aria-hidden="true" className="text-accent">
-          ↓
-        </span>
-        <p className="text-base font-medium">500 parallel rollouts</p>
-        <span aria-hidden="true" className="text-accent">
-          ↓
-        </span>
-        <p className="text-base font-medium">Cost &amp; elite selection</p>
-      </div>
-    )
-  }
+export function MppiDiagram() {
   return (
     <div
       role="group"

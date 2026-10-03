@@ -1,10 +1,25 @@
 import adlrInterpolation from '@/assets/projects/tactile-raycasting-nn/interpolation.webp'
 import adlrReconstruction from '@/assets/projects/tactile-raycasting-nn/reconstruction.webp'
 import rosDashboard from '@/assets/projects/autonomous-driving-ros2/dashboard.webp'
+import rosMap from '@/assets/projects/autonomous-driving-ros2/trajectory-map.webp'
 import rosPipeline from '@/assets/projects/autonomous-driving-ros2/pipeline.webp'
 import rosStates from '@/assets/projects/autonomous-driving-ros2/state-machine.webp'
 import labWristCamera from '@/assets/projects/mppi-flow-matching-franka/wrist-camera.webp'
 import thesisStrip from '@/assets/projects/footstep-sound-cnn/hero-strip.webp'
+
+// Clips and posters of the lab project (converted from the recorded GIFs, see the handoff).
+const labFiles = import.meta.glob('../assets/projects/mppi-flow-matching-franka/video/*', {
+  eager: true,
+  query: '?url',
+  import: 'default',
+}) as Record<string, string>
+const lab = (file: string) => labFiles[`../assets/projects/mppi-flow-matching-franka/video/${file}`]
+const labClip = (name: string, title: string, legend = false): ProjectVideo => ({
+  src: lab(`${name}.mp4`),
+  poster: lab(`${name}.webp`),
+  title,
+  legend,
+})
 
 export interface ProjectImage {
   src: string
@@ -29,6 +44,19 @@ export interface ProjectSection {
   images?: ProjectImage[]
   /** Captions of figures still to come; rendered as "Placeholder" tiles. */
   placeholderFigures?: string[]
+  /** Drawn planner diagram inside the section. */
+  diagram?: 'mppi-flow'
+  videos?: ProjectVideo[]
+  /** featured = first clip wide, rest in two columns; grid = three columns. */
+  videoLayout?: 'featured' | 'grid'
+}
+
+export interface ProjectVideo {
+  src: string
+  poster: string
+  title: string
+  /** Draw the red/blue trajectory legend over the clip. */
+  legend?: boolean
 }
 
 export interface Project {
@@ -46,8 +74,8 @@ export interface Project {
   sections: ProjectSection[]
   resultsTitle?: string
   results?: { label: string; value: string; note?: string }[]
-  /** Drawn diagram used instead of an image (hero and card cover). */
-  diagram?: 'mppi-flow'
+  /** Looping clip used as the hero instead of an image. */
+  heroVideo?: ProjectVideo
   /** Text drawn over the hero image. */
   banner?: {
     kicker?: string
@@ -78,10 +106,18 @@ export const projects: Project[] = [
     summary:
       'A sampling-based MPC planner for tabletop manipulation whose action candidates come partly from a learned flow-matching prior. Developed in Isaac Lab, now moving to a real Franka Research 3.',
     tags: ['MPC', 'Flow Matching', 'Isaac Lab', 'CRISP', 'FoundationPose', 'Franka'],
-    diagram: 'mppi-flow',
     banner: {
       kicker: 'Research internship · Learning Systems and Robotics Lab · since 05/2026',
       layout: 'stacked',
+    },
+    heroVideo: labClip(
+      'hero-planner-view',
+      'Pick and place in simulation with the planner trajectories drawn',
+      true,
+    ),
+    cover: {
+      src: lab('hero-planner-view.webp'),
+      alt: 'The robot arm lowering the gripper onto a red LEGO brick, surrounded by drawn red and blue planner trajectories.',
     },
     resultsTitle: 'Results in simulation',
     results: [
@@ -115,11 +151,40 @@ export const projects: Project[] = [
         ],
       },
       {
+        heading: 'The planner loop',
+        diagram: 'mppi-flow',
+      },
+      {
         heading: 'Tasks',
         bullets: [
           'Grasp and lift: pick up one of six objects (a cube, two jars, a remote, a cylinder and a large block) and lift it to a goal.',
           'Pick and place: take a LEGO brick from a studded baseplate, carry it, place it on a goal cell, release it, retreat and return to the home pose.',
         ],
+      },
+      {
+        heading: 'Demo: pick and place',
+        paragraphs: [
+          'Recordings from the simulation: the robot picks up the LEGO brick and places it on the green goal outline. Press play to watch.',
+        ],
+        videos: [
+          labClip('pick-place-1', 'Pick and place, run 1'),
+          labClip('pick-place-2', 'Pick and place, run 2'),
+          labClip('pick-place-3', 'Pick and place, run 3'),
+        ],
+        videoLayout: 'featured',
+      },
+      {
+        heading: 'Demo: grasp and lift',
+        paragraphs: ['One recording for each of the six objects.'],
+        videos: [
+          labClip('grasp-cube', 'Cube'),
+          labClip('grasp-jar-a', 'Jar A'),
+          labClip('grasp-jar-b', 'Jar B'),
+          labClip('grasp-remote', 'Remote'),
+          labClip('grasp-cylinder', 'Cylinder'),
+          labClip('grasp-block-large', 'Large block'),
+        ],
+        videoLayout: 'grid',
       },
       {
         heading: 'Setup',
@@ -191,8 +256,8 @@ export const projects: Project[] = [
     tags: ['C++', 'ROS 2', 'MPC', 'State machine', 'Lane detection'],
     banner: { kicker: 'Introduction to ROS · Summer Semester 2026', layout: 'stacked' },
     cover: {
-      src: rosDashboard,
-      alt: 'Plots of the driven trajectory, the speed profile and the MPC cross-track error over one lap.',
+      src: rosMap,
+      alt: 'Top-down map of the driven lap, colored by speed, with the traffic lights marked.',
     },
     hero: {
       src: rosPipeline,

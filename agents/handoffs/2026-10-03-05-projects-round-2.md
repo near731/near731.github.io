@@ -56,3 +56,22 @@ lint, typecheck, unit tests (4), build, e2e (8) pass; screenshots checked for la
 ## Round 7 (CV off the site)
 - Owner: do not publish the CV yet. `profile.links.cv` is now `null`; CV buttons (header, mobile menu, hero) render only when it is set. The page-1-only PDF moved to `private/Aron_Imre_Nemeth_CV_EN_page1.pdf` (git-ignored) and was removed from the git index. To re-enable: put the PDF in `public/cv/`, set the path in `src/data/profile.ts`, and decide about the home address and phone number on it first.
 - Staged-content scan for the push found no teammate/supervisor names, no addresses, no private email.
+
+## Round 8 (lab project clips)
+- Owner added GIFs to the lab repo (`FR3_Robotiq_Grasping/recordings/2026-10-03_fp_crisp/`, documented in its README). 10 of them were converted (outside the repo, with Python + `imageio-ffmpeg`, a local tool and NOT a project dependency) to H.264 MP4 plus WebP posters in `src/assets/projects/mppi-flow-matching-franka/video/` (hero 1280 wide crf 27, pick-and-place 960 wide, grasp-and-lift 640 wide; 2.25 MB in total vs. 5-16 MB per GIF). Poster = a frame at 30-45% of each clip.
+- Page layout A (owner's choice): hero = looping silent close-up of the pick-and-place run with the planner's trajectories drawn (CORRECTED by the owner: red = flow-prior rollouts, blue = CEM rollouts; the recordings README was imprecise), stacked banner under it; the planner diagram moved to "The planner loop"; "Demo: pick and place" (3 click-to-play clips) and "Demo: grasp and lift" (6 clips). Card cover on the overview = the hero poster with the banner.
+- Behaviour (owner's choice): hero autoplays muted while visible, with a Pause/Play button; under `prefers-reduced-motion` no autoplay and native controls; all other clips start on click (`preload="none"`). Every clip carries a "Simulation" badge; the hero also shows the legend.
+- Owner chose NOT to add "demonstration runs, not benchmark results" or "ground-truth object poses" labels. The README of the recordings says the clips are successful demonstration runs, not paired benchmarks, and the grasp-and-lift clips use oracle perception. The results tiles on the page already say "ground-truth object poses" for grasp and lift. Consider revisiting the first label.
+- Not used: the 3 older wide-view pick-and-place GIFs, the 4th launcher-camera normal clip, duplicates in `rerecord/`, `_superseded_original/` and all logs.
+- Tests: e2e checks muted/loop/pause button and the reduced-motion path (Playwright's Chromium cannot decode H.264, so playback itself was verified manually in Chrome: hero ran at 1280x720, a demo clip played on click).
+
+## Round 9 (legend fix, coursework)
+- Legend corrected by the owner: red = flow-prior rollouts, blue = CEM rollouts (both are rollouts). `VideoClip` now says so.
+- New home section "Relevant Coursework" (`src/data/coursework.ts`), grouped Machine Learning / Control / Robotics, English title first with the German original in brackets. No grades (owner request; a unit test guards against grade-like numbers). Introduction to ROS and Visual Computing are listed as completed (owner: those were last semester). "Advanced Machine Learning: Deep Generative Models" is NOT listed (not done yet); add it when completed.
+- Contact section intentionally unchanged (owner reviewed it).
+
+## Round 10 (coursework styling)
+- Owner picked: rows with hairline dividers, course name in normal text color/medium weight, German original as a small second line, three columns (3/5/3 courses) with tops aligned (`items-start`, cards sized to content). Group titles use the mono accent eyebrow style. Numbers in course titles are bound with non-breaking spaces so a lone "1"/"2" never wraps.
+
+## Round 11 (card covers)
+- Owner reviewed all four overview covers: only the ROS cover changed (now the lap trajectory map cropped from the dashboard figure, `trajectory-map.webp`; the detail page still shows the full dashboard under "Performance over one lap"). Lab, ADLR and thesis covers stay as they were. Ideas not taken: hover-to-play on the lab card, a tighter ADLR crop, one big age plot for the thesis.

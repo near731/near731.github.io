@@ -2,7 +2,9 @@ import { Link, useParams } from 'react-router-dom'
 import { Tag } from '@/components/Section'
 import { Reveal } from '@/components/Reveal'
 import { HeroBanner } from '@/components/HeroBanner'
+import { MppiDiagram } from '@/components/MppiDiagram'
 import { ProjectImage } from '@/components/ProjectImage'
+import { VideoClip } from '@/components/VideoClip'
 import { RichText } from '@/components/RichText'
 import { projects, type ProjectTable } from '@/data/projects'
 
@@ -165,6 +167,30 @@ export function ProjectDetail() {
               )}
             </div>
             {s.table && <DataTable table={s.table} />}
+            {s.diagram === 'mppi-flow' && (
+              <div className="mt-2">
+                <MppiDiagram />
+              </div>
+            )}
+            {s.videos && (
+              <div
+                className={`mt-5 grid gap-4 ${
+                  s.videoLayout === 'grid' ? 'sm:grid-cols-3' : 'sm:grid-cols-2'
+                }`}
+              >
+                {s.videos.map((v, i) => (
+                  <figure
+                    key={v.src}
+                    className={s.videoLayout !== 'grid' && i === 0 ? 'sm:col-span-2' : ''}
+                  >
+                    <div className="overflow-hidden rounded-xl border border-line">
+                      <VideoClip video={v} />
+                    </div>
+                    <figcaption className="mt-1.5 text-sm text-muted">{v.title}</figcaption>
+                  </figure>
+                ))}
+              </div>
+            )}
             {s.placeholderFigures?.map((caption) => (
               <figure key={caption} className="mt-5">
                 <ProjectImage className="aspect-[16/9] w-full rounded-xl border border-line" />

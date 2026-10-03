@@ -7,6 +7,9 @@ test('home renders key sections and links', async ({ page }) => {
   await expect(page.getByRole('heading', { name: 'My Professional Experience' })).toBeVisible()
   await expect(page.getByRole('heading', { name: 'Education', exact: true })).toBeVisible()
   await expect(page.getByText('High School')).toHaveCount(0)
+  await expect(page.getByRole('heading', { name: 'Relevant Coursework' })).toBeVisible()
+  await expect(page.getByText('Roboterdynamik')).toBeVisible()
+  await expect(page.getByText('Deep Generative Models')).toHaveCount(0)
   await expect(page.getByRole('link', { name: /CV/ })).toHaveCount(0)
   await expect(page.getByRole('link', { name: 'LinkedIn' }).first()).toHaveAttribute(
     'href',
@@ -53,4 +56,23 @@ test('lab project shows the planner diagram and third-party links', async ({ pag
     'href',
     'https://github.com/learnsyslab/crisp_controllers',
   )
+})
+
+test('lab hero is a silent looping clip with a pause button', async ({ page }) => {
+  await page.goto('/projects/mppi-flow-matching-franka')
+  const hero = page.locator('article video').first()
+  await expect(hero).toHaveJSProperty('muted', true)
+  await expect(hero).toHaveJSProperty('loop', true)
+  await expect(page.getByRole('button', { name: /Pause video|Play video/ })).toBeVisible()
+  await expect(page.getByText('Simulation').first()).toBeVisible()
+  await expect(page.locator('article video')).toHaveCount(10)
+})
+
+test('reduced motion: no autoplay, native controls instead', async ({ page }) => {
+  await page.emulateMedia({ reducedMotion: 'reduce' })
+  await page.goto('/projects/mppi-flow-matching-franka')
+  const hero = page.locator('article video').first()
+  await expect(hero).toHaveJSProperty('loop', false)
+  await expect(hero).toHaveJSProperty('controls', true)
+  await expect(page.getByRole('button', { name: /Pause video|Play video/ })).toHaveCount(0)
 })

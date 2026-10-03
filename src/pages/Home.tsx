@@ -3,6 +3,7 @@ import { Section, Tag } from '@/components/Section'
 import { Reveal } from '@/components/Reveal'
 import { Timeline } from '@/components/Timeline'
 import { Link } from 'react-router-dom'
+import { coursework } from '@/data/coursework'
 import { education } from '@/data/education'
 import { achievements, experience } from '@/data/experience'
 import { profile } from '@/data/profile'
@@ -77,6 +78,32 @@ export function Home() {
             lines: e.details,
           }))}
         />
+      </Section>
+
+      <Section id="coursework" title="Relevant Coursework">
+        <div className="grid items-start gap-6 md:grid-cols-3">
+          {coursework.map((g, i) => (
+            <Reveal key={g.title} delay={i * 60}>
+              <div className="rounded-xl border border-line bg-surface p-5">
+                <h3 className="mb-4 font-mono text-sm uppercase tracking-widest text-accent">
+                  {g.title}
+                </h3>
+                <ul className="divide-y divide-line">
+                  {g.courses.map((c) => (
+                    <li key={c.name} className="py-3 first:pt-0 last:pb-0">
+                      <span className="block text-[0.92rem] font-medium leading-snug">
+                        {c.name}
+                      </span>
+                      {c.original && (
+                        <span className="mt-0.5 block text-[0.8rem] text-muted">{c.original}</span>
+                      )}
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            </Reveal>
+          ))}
+        </div>
       </Section>
 
       <Section id="skills" title="Skills">
