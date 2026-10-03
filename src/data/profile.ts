@@ -1,9 +1,9 @@
-import avatar from '@/assets/avatar-placeholder.jpg'
+import avatar from '@/assets/aron-nemeth.jpg'
 
 export const profile = {
   name: 'Áron Imre Németh',
   photo: avatar,
-  photoAlt: 'Placeholder avatar',
+  photoAlt: 'Portrait of Áron Imre Németh',
   role: "Master's student in Robotics",
   tagline: 'Robotics + Deep Learning',
   location: 'Munich, Germany',

@@ -8,6 +8,7 @@ export const generalTranslations: Record<string, string> = {
   "Áron Imre Németh: Master's student in Robotics at TU Munich, working on deep learning, reinforcement learning and control.":
     'Áron Imre Németh: Masterstudent mit Schwerpunkt Robotik an der TU München. Deep Learning, Reinforcement Learning und Regelungstechnik.',
   'Placeholder avatar': 'Platzhalterbild',
+  'Portrait of Áron Imre Németh': 'Porträt von Áron Imre Németh',
   "Master's student in Robotics": 'Masterstudent mit Schwerpunkt Robotik',
   'Robotics + Deep Learning': 'Robotik + Deep Learning',
   'Munich, Germany': 'München, Deutschland',

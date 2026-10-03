@@ -3,7 +3,7 @@ import { expect, test } from '@playwright/test'
 test('home renders key sections and links', async ({ page }) => {
   await page.goto('/')
   await expect(page.getByRole('heading', { level: 1 })).toHaveText('Áron Imre Németh')
-  await expect(page.getByAltText('Placeholder avatar')).toBeVisible()
+  await expect(page.getByAltText('Portrait of Áron Imre Németh')).toBeVisible()
   await expect(page.getByRole('heading', { name: 'My Professional Experience' })).toBeVisible()
   await expect(page.getByRole('heading', { name: 'Education', exact: true })).toBeVisible()
   await expect(page.getByText('High School')).toHaveCount(0)
