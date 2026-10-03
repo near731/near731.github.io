@@ -23,12 +23,14 @@ export function Hero() {
       <p className="mt-5 max-w-prose text-muted">{profile.intro}</p>
 
       <div className="mt-8 flex flex-wrap justify-center gap-3">
-        <a
-          href={`${import.meta.env.BASE_URL}${links.cv}`}
-          className={`${btn} bg-accent text-accent-fg hover:opacity-90`}
-        >
-          <DownloadIcon /> Download CV
-        </a>
+        {links.cv && (
+          <a
+            href={`${import.meta.env.BASE_URL}${links.cv}`}
+            className={`${btn} bg-accent text-accent-fg hover:opacity-90`}
+          >
+            <DownloadIcon /> Download CV
+          </a>
+        )}
         <a
           href={links.github}
           target="_blank"

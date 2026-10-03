@@ -24,6 +24,7 @@ export const profile = {
     github: 'https://github.com/near731',
     linkedin: 'https://www.linkedin.com/in/aron-imre-nemeth/',
     email: 'aron_imre.nemeth@tum.de',
-    cv: 'cv/Aron_Imre_Nemeth_CV_EN.pdf',
+    // TODO(owner): set to 'cv/<file>.pdf' (file in public/cv/) to show the CV buttons.
+    cv: null as string | null,
   },
 } as const

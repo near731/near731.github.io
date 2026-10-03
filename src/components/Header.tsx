@@ -38,12 +38,14 @@ export function Header() {
               {n.label}
             </NavLink>
           ))}
-          <a
-            href={`${import.meta.env.BASE_URL}${profile.links.cv}`}
-            className="ml-2 rounded-md border border-line px-3 py-1.5 text-base font-medium transition-colors hover:border-accent hover:text-accent"
-          >
-            CV
-          </a>
+          {profile.links.cv && (
+            <a
+              href={`${import.meta.env.BASE_URL}${profile.links.cv}`}
+              className="ml-2 rounded-md border border-line px-3 py-1.5 text-base font-medium transition-colors hover:border-accent hover:text-accent"
+            >
+              CV
+            </a>
+          )}
           <button
             type="button"
             onClick={toggle}
@@ -93,12 +95,14 @@ export function Header() {
               {n.label}
             </NavLink>
           ))}
-          <a
-            href={`${import.meta.env.BASE_URL}${profile.links.cv}`}
-            className="rounded-md px-3 py-2 text-base font-medium text-muted hover:text-fg"
-          >
-            Download CV
-          </a>
+          {profile.links.cv && (
+            <a
+              href={`${import.meta.env.BASE_URL}${profile.links.cv}`}
+              className="rounded-md px-3 py-2 text-base font-medium text-muted hover:text-fg"
+            >
+              Download CV
+            </a>
+          )}
         </nav>
       )}
     </header>

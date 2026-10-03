@@ -52,3 +52,7 @@ lint, typecheck, unit tests (4), build, e2e (8) pass; screenshots checked for la
 ## Round 6 (thesis details)
 - Owner confirmed the reported thesis numbers come from the multi-kernel (Inception-style) CNN. Method now states: peak-detection step segmentation, 256-band mel-spectrograms as 3x256x256 images, multi-kernel CNN with three regression outputs; Training section: batch 64, lr 1e-4, dropout 0.2, early stopping (patience 15), 73 epochs, ~4 h on a GTX 1080 (all from `PN_V2/README.md`; model structure checked in `PN_build_NN.py`).
 - Results are labelled plainly "Test-set results" (owner's choice) although they come from the July 2024 README, not necessarily the 2023 thesis version. Only the TDK home page is linked; no document downloads.
+
+## Round 7 (CV off the site)
+- Owner: do not publish the CV yet. `profile.links.cv` is now `null`; CV buttons (header, mobile menu, hero) render only when it is set. The page-1-only PDF moved to `private/Aron_Imre_Nemeth_CV_EN_page1.pdf` (git-ignored) and was removed from the git index. To re-enable: put the PDF in `public/cv/`, set the path in `src/data/profile.ts`, and decide about the home address and phone number on it first.
+- Staged-content scan for the push found no teammate/supervisor names, no addresses, no private email.

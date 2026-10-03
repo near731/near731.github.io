@@ -7,10 +7,7 @@ test('home renders key sections and links', async ({ page }) => {
   await expect(page.getByRole('heading', { name: 'My Professional Experience' })).toBeVisible()
   await expect(page.getByRole('heading', { name: 'Education', exact: true })).toBeVisible()
   await expect(page.getByText('High School')).toHaveCount(0)
-  await expect(page.getByRole('link', { name: /Download CV/ }).first()).toHaveAttribute(
-    'href',
-    /Aron_Imre_Nemeth_CV_EN\.pdf$/,
-  )
+  await expect(page.getByRole('link', { name: /CV/ })).toHaveCount(0)
   await expect(page.getByRole('link', { name: 'LinkedIn' }).first()).toHaveAttribute(
     'href',
     'https://www.linkedin.com/in/aron-imre-nemeth/',
