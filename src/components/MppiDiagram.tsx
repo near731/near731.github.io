@@ -1,4 +1,4 @@
-import { plannerDiagram } from '@/data/ui'
+import { useContent } from '@/hooks/useLocale'
 import type { ReactNode } from 'react'
 
 function Box({
@@ -35,6 +35,7 @@ function Arrow() {
  * cost and elite selection -> executed action, closing the loop through the state update.
  */
 export function MppiDiagram() {
+  const { plannerDiagram } = useContent()
   return (
     <div
       role="group"

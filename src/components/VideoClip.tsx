@@ -1,4 +1,4 @@
-import { ui } from '@/data/ui'
+import { useContent } from '@/hooks/useLocale'
 import { useEffect, useRef, useState } from 'react'
 import type { ProjectVideo } from '@/data/projects'
 
@@ -10,6 +10,7 @@ const prefersReducedMotion = () =>
  * prefers reduced motion; every other clip shows a poster and starts on click.
  */
 export function VideoClip({ video, hero = false }: { video: ProjectVideo; hero?: boolean }) {
+  const { ui } = useContent()
   const ref = useRef<HTMLVideoElement>(null)
   // True after the visitor pressed Pause: scrolling back must not restart the clip.
   const userPaused = useRef(false)

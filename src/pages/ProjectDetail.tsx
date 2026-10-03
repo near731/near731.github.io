@@ -1,4 +1,5 @@
-import { ui } from '@/data/ui'
+import { useContent } from '@/hooks/useLocale'
+import type { ProjectTable } from '@/data/projects'
 import { Link, useParams } from 'react-router-dom'
 import { Tag } from '@/components/Section'
 import { Reveal } from '@/components/Reveal'
@@ -7,7 +8,6 @@ import { MppiDiagram } from '@/components/MppiDiagram'
 import { ProjectImage } from '@/components/ProjectImage'
 import { VideoClip } from '@/components/VideoClip'
 import { RichText } from '@/components/RichText'
-import { projects, type ProjectTable } from '@/data/projects'
 
 function DataTable({ table }: { table: ProjectTable }) {
   return (
@@ -66,6 +66,7 @@ function DataTable({ table }: { table: ProjectTable }) {
 }
 
 export function ProjectDetail() {
+  const { ui, projects } = useContent()
   const { slug } = useParams()
   const project = projects.find((p) => p.slug === slug)
 
@@ -87,16 +88,16 @@ export function ProjectDetail() {
   const stats = project.results ?? []
 
   return (
-    <article className="mx-auto max-w-4xl px-4 py-12 sm:px-6 sm:py-16">
+    <article className="mx-auto max-w-4xl break-words px-4 py-12 sm:px-6 sm:py-16">
       <Link to="/projects" className="text-base font-medium text-accent hover:underline">
         &larr; {ui.allProjects}
       </Link>
 
       <Reveal>
         <p className="mt-8 font-mono text-sm uppercase tracking-widest text-accent">
-          {project.status}
+          {ui.statusLabels[project.status]}
         </p>
-        <h1 className="mt-2 text-4xl font-bold tracking-tight">{project.title}</h1>
+        <h1 className="mt-2 hyphens-auto text-4xl font-bold tracking-tight">{project.title}</h1>
         <p className="mt-2 max-w-prose text-xl text-muted">{project.tagline}</p>
         <p className="mt-3 text-base text-muted">{meta}</p>
         <div className="mt-4 flex flex-wrap gap-2">

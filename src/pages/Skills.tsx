@@ -1,9 +1,9 @@
-import { ui } from '@/data/ui'
+import { useContent } from '@/hooks/useLocale'
 import { Section, Tag } from '@/components/Section'
 import { Reveal } from '@/components/Reveal'
-import { languages, personalInterests, skillGroups } from '@/data/skills'
 
 export function Skills() {
+  const { ui, languages, personalInterests, skillGroups } = useContent()
   return (
     <div className="pt-6">
       <Section title={ui.skills} level={1}>

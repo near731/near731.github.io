@@ -1,4 +1,13 @@
 export const ui = {
+  language: 'Language',
+  english: 'English',
+  german: 'Deutsch',
+  nativeLanguages: { en: 'English', de: 'Deutsch' },
+  skipContent: 'Skip to content',
+  pageTitle: '\u00c1ron Imre N\u00e9meth | Robotics & Deep Learning',
+  description:
+    "\u00c1ron Imre N\u00e9meth: Master's student in Robotics at TU Munich, working on deep learning, reinforcement learning and control.",
+  statusLabels: { Completed: 'Completed', 'In progress': 'In progress' },
   nav: [
     { to: '/', label: 'Home', end: true },
     { to: '/skills', label: 'Skills', end: false },
@@ -31,8 +40,6 @@ export const ui = {
   languages: 'Languages',
   beyondWork: 'Beyond work',
   projects: 'Projects',
-  projectsIntro:
-    'The source code of these projects is private, so each one is presented with a summary, results and figures.',
   projectNotFound: 'Project not found',
   allProjects: 'All projects',
   figures: 'Figures',

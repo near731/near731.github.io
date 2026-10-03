@@ -1,8 +1,9 @@
-import { ui } from '@/data/ui'
+import { useContent } from '@/hooks/useLocale'
 import type { ProjectImage as Img } from '@/data/projects'
 
 /** Renders the project image, or a themed "Placeholder" tile when there is none yet. */
 export function ProjectImage({ image, className = '' }: { image?: Img; className?: string }) {
+  const { ui } = useContent()
   if (!image) {
     return (
       <div

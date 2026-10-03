@@ -1,11 +1,11 @@
-import { ui } from '@/data/ui'
-import { profile } from '@/data/profile'
+import { useContent } from '@/hooks/useLocale'
 import { DownloadIcon, GithubIcon, LinkedinIcon, MailIcon } from '@/components/icons'
 
 const btn =
   'inline-flex items-center gap-2 rounded-lg px-4 py-2.5 text-base font-medium transition-colors'
 
 export function Hero() {
+  const { ui, profile } = useContent()
   const { links } = profile
   return (
     <section className="mx-auto flex max-w-3xl flex-col items-center px-4 pb-10 pt-12 text-center sm:px-6 md:pt-20">

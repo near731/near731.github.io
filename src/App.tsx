@@ -1,3 +1,4 @@
+import { useContent } from '@/hooks/useLocale'
 import { useEffect } from 'react'
 import { BrowserRouter, Route, Routes, useLocation } from 'react-router-dom'
 import { Footer } from '@/components/Footer'
@@ -16,6 +17,7 @@ function ScrollToTop() {
 }
 
 export default function App() {
+  const { ui } = useContent()
   return (
     <BrowserRouter basename={import.meta.env.BASE_URL.replace(/\/$/, '')}>
       <ScrollToTop />
@@ -23,7 +25,7 @@ export default function App() {
         href="#main"
         className="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-50 focus:rounded-md focus:bg-accent focus:px-3 focus:py-2 focus:text-accent-fg"
       >
-        Skip to content
+        {ui.skipContent}
       </a>
       <Header />
       <main id="main">

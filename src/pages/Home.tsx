@@ -1,17 +1,13 @@
-import { ui } from '@/data/ui'
+import { useContent } from '@/hooks/useLocale'
 import { Hero } from '@/sections/Hero'
 import { Section, Tag } from '@/components/Section'
 import { Reveal } from '@/components/Reveal'
 import { Timeline } from '@/components/Timeline'
 import { Link } from 'react-router-dom'
-import { coursework } from '@/data/coursework'
-import { education } from '@/data/education'
-import { achievements, experience } from '@/data/experience'
-import { profile } from '@/data/profile'
-import { skillGroups } from '@/data/skills'
 import { GithubIcon, LinkedinIcon, MailIcon } from '@/components/icons'
 
 export function Home() {
+  const { ui, coursework, education, achievements, experience, profile, skillGroups } = useContent()
   return (
     <>
       <Hero />

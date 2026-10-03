@@ -1,13 +1,13 @@
-import { ui } from '@/data/ui'
+import { LanguageSwitcher } from './LanguageSwitcher'
+import { useContent } from '@/hooks/useLocale'
 import { useState } from 'react'
 import { Link, NavLink } from 'react-router-dom'
-import { profile } from '@/data/profile'
 import { useTheme } from '@/hooks/useTheme'
 import { CloseIcon, MenuIcon, MoonIcon, SunIcon } from './icons'
 
-const nav = ui.nav
-
 export function Header() {
+  const { ui, profile } = useContent()
+  const nav = ui.nav
   const { theme, toggle } = useTheme()
   const [open, setOpen] = useState(false)
 
@@ -30,6 +30,7 @@ export function Header() {
         </Link>
 
         <nav aria-label={ui.mainNav} className="hidden items-center gap-1 sm:flex">
+          <LanguageSwitcher />
           {nav.map((n) => (
             <NavLink key={n.to} to={n.to} end={n.end} className={linkClass}>
               {n.label}
@@ -54,6 +55,7 @@ export function Header() {
         </nav>
 
         <div className="flex items-center gap-1 sm:hidden">
+          <LanguageSwitcher />
           <button
             type="button"
             onClick={toggle}

@@ -68,22 +68,26 @@ export function HeroBanner({ project, compact = false }: { project: Project; com
             compact ? 'h-full' : 'rounded-xl border border-line'
           }`}
         >
-          {media}
-          {!compact && start && end && (
-            <>
-              <span className="absolute left-3 top-3 rounded-full bg-slate-900/85 px-3 py-1 font-mono text-sm text-white">
-                {start}
-              </span>
-              <span className="absolute bottom-[27%] right-3 rounded-full bg-slate-900/85 px-3 py-1 font-mono text-sm text-white">
-                {end}
-              </span>
-            </>
-          )}
+          <div className={compact ? 'relative h-full' : 'relative'}>
+            {media}
+            {!compact && start && end && (
+              <>
+                <span className="absolute left-3 top-3 rounded-full bg-slate-900/85 px-3 py-1 font-mono text-sm text-white">
+                  {start}
+                </span>
+                <span className="absolute bottom-[27%] right-3 rounded-full bg-slate-900/85 px-3 py-1 font-mono text-sm text-white">
+                  {end}
+                </span>
+              </>
+            )}
+          </div>
           <div
-            className={`absolute inset-x-0 bottom-0 text-white ${
-              compact ? 'px-3 pb-2 pt-8' : 'px-5 pb-4 pt-14 sm:px-6'
+            className={`text-white ${
+              compact
+                ? 'absolute inset-x-0 bottom-0 px-3 pb-2 pt-8'
+                : 'relative bg-slate-900 px-5 py-4 sm:absolute sm:inset-x-0 sm:bottom-0 sm:bg-transparent sm:px-6 sm:pb-4 sm:pt-14'
             }`}
-            style={{ background: STRIP_BG }}
+            style={{ backgroundImage: STRIP_BG }}
           >
             <BannerText project={project} compact={compact} />
           </div>

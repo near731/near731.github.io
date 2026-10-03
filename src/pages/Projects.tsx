@@ -1,17 +1,14 @@
-import { ui } from '@/data/ui'
+import { useContent } from '@/hooks/useLocale'
 import { Link } from 'react-router-dom'
 import { Section, Tag } from '@/components/Section'
 import { Reveal } from '@/components/Reveal'
 import { ProjectCover } from '@/components/ProjectCover'
-import { projects } from '@/data/projects'
 
 export function Projects() {
+  const { ui, projects } = useContent()
   return (
     <div className="pt-6">
       <Section title={ui.projects} level={1}>
-        <Reveal>
-          <p className="mb-8 max-w-prose text-muted">{ui.projectsIntro}</p>
-        </Reveal>
         <div className="grid gap-6 sm:grid-cols-2">
           {projects.map((p, i) => (
             <Reveal key={p.slug} delay={i * 70}>
@@ -22,7 +19,7 @@ export function Projects() {
                 <ProjectCover project={p} className="aspect-[16/10] w-full border-b border-line" />
                 <div className="flex flex-1 flex-col p-5">
                   <p className="font-mono text-sm text-accent">
-                    {p.status} · {p.period}
+                    {ui.statusLabels[p.status]} · {p.period}
                   </p>
                   <h3 className="mt-1 font-semibold leading-snug group-hover:text-accent">
                     {p.title}
