@@ -1,3 +1,4 @@
+import { plannerDiagram } from '@/data/ui'
 import type { ReactNode } from 'react'
 
 function Box({
@@ -37,46 +38,46 @@ export function MppiDiagram() {
   return (
     <div
       role="group"
-      aria-label="Planner loop: from the robot and object state, candidates come from a learned flow-matching prior and from CEM sampling, 500 sequences are rolled out in parallel in Isaac Lab, the cheapest are selected, and the executed action leads to the next state."
+      aria-label={plannerDiagram.description}
       className="mx-auto max-w-2xl rounded-xl border border-line bg-surface/60 p-4 sm:p-6"
     >
       <div className="flex flex-col gap-2">
         <Box
           title={
             <>
-              State x<sub>k</sub>
+              {plannerDiagram.state} x<sub>k</sub>
             </>
           }
         >
-          robot + object
+          {plannerDiagram.stateDetail}
         </Box>
         <Arrow />
         <div className="grid gap-3 sm:grid-cols-2">
-          <Box title="CEM sampling">Gaussian, about 25% of the candidates</Box>
-          <Box title="Flow-matching prior">learned, about 75% of the candidates</Box>
+          <Box title={plannerDiagram.cem}>{plannerDiagram.cemDetail}</Box>
+          <Box title={plannerDiagram.prior}>{plannerDiagram.priorDetail}</Box>
         </div>
         <Arrow />
-        <Box title="Rollouts">K = 500 action sequences, 16 steps each</Box>
+        <Box title={plannerDiagram.rollouts}>{plannerDiagram.rolloutsDetail}</Box>
         <Arrow />
-        <Box title="Parallel Isaac Lab rollout" strong>
-          all sequences simulated in parallel
+        <Box title={plannerDiagram.simulation} strong>
+          {plannerDiagram.simulationDetail}
         </Box>
         <Arrow />
-        <Box title="Cost & elite selection">the best candidates form the next plan</Box>
+        <Box title={plannerDiagram.selection}>{plannerDiagram.selectionDetail}</Box>
         <Arrow />
         <Box
           title={
             <>
-              Executed action u<sub>k</sub>
+              {plannerDiagram.action} u<sub>k</sub>
             </>
           }
         >
-          first part of the plan, tracked by CRISP
+          {plannerDiagram.actionDetail}
         </Box>
       </div>
       <p className="mt-4 rounded-lg border border-dashed border-line px-3 py-2 text-center text-base text-muted">
-        <span aria-hidden="true">↺ </span>x<sub>k+1</sub> = f(x<sub>k</sub>, u<sub>k</sub>): the new
-        state starts the next planning step
+        <span aria-hidden="true">↺ </span>x<sub>k+1</sub> = f(x<sub>k</sub>, u<sub>k</sub>):{' '}
+        {plannerDiagram.feedback}
       </p>
     </div>
   )

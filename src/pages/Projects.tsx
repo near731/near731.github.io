@@ -1,3 +1,4 @@
+import { ui } from '@/data/ui'
 import { Link } from 'react-router-dom'
 import { Section, Tag } from '@/components/Section'
 import { Reveal } from '@/components/Reveal'
@@ -7,12 +8,9 @@ import { projects } from '@/data/projects'
 export function Projects() {
   return (
     <div className="pt-6">
-      <Section title="Projects">
+      <Section title={ui.projects} level={1}>
         <Reveal>
-          <p className="mb-8 max-w-prose text-muted">
-            The source code of these projects is private, so each one is presented with a summary,
-            results and figures.
-          </p>
+          <p className="mb-8 max-w-prose text-muted">{ui.projectsIntro}</p>
         </Reveal>
         <div className="grid gap-6 sm:grid-cols-2">
           {projects.map((p, i) => (

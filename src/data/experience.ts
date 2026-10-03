@@ -19,11 +19,11 @@ export const experience: Experience[] = [
     period: 'since 05/2026',
     logo: lsrLogo,
     bullets: [
-      'Sampling-based MPC with Conditional Flow Matching priors for grasp planning with a Franka arm across different object geometries, simulated in IsaacLab.',
+      'Sampling-based MPC with Conditional Flow Matching priors for grasp planning with a Franka arm across different object geometries in Isaac Lab.',
       'Grasp-and-lift success of 91.7% (550 of 600 attempts, six objects) in simulation.',
       'Now transferring the approach to a real Franka Research 3 arm to close the sim-to-real gap.',
     ],
-    tags: ['MPC', 'Flow Matching', 'IsaacLab', 'Franka'],
+    tags: ['MPC', 'Flow Matching', 'Isaac Lab', 'Franka'],
   },
   {
     title: 'Internship, Data Analysis and AI',
@@ -42,7 +42,7 @@ export const experience: Experience[] = [
 export const achievements = [
   {
     title: 'First Place, Scientific Student Circle Conference (TDK)',
-    date: '2023/11/16',
+    date: '16 November 2023',
     place: 'Budapest, Hungary',
     detail: 'Paper: "Estimating Anthropometric Data Based on Footstep-Sound Recordings".',
   },

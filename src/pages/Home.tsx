@@ -1,3 +1,4 @@
+import { ui } from '@/data/ui'
 import { Hero } from '@/sections/Hero'
 import { Section, Tag } from '@/components/Section'
 import { Reveal } from '@/components/Reveal'
@@ -15,7 +16,7 @@ export function Home() {
     <>
       <Hero />
 
-      <Section id="about" title="Summary">
+      <Section id="about" title={ui.summary}>
         <Reveal>
           <div className="grid gap-8 md:grid-cols-[3fr_2fr]">
             <div className="space-y-4 text-muted">
@@ -25,7 +26,7 @@ export function Home() {
             </div>
             <div>
               <h3 className="mb-3 font-mono text-sm uppercase tracking-widest text-muted">
-                Interests
+                {ui.interests}
               </h3>
               <div className="flex flex-wrap gap-2">
                 {profile.interests.map((i) => (
@@ -37,7 +38,7 @@ export function Home() {
         </Reveal>
       </Section>
 
-      <Section id="experience" title="My Professional Experience">
+      <Section id="experience" title={ui.experience}>
         <Timeline
           entries={experience.map((e) => ({
             key: e.title + e.period,
@@ -54,7 +55,7 @@ export function Home() {
             <Reveal key={a.title}>
               <div className="rounded-xl border border-line bg-surface p-5">
                 <p className="font-mono text-sm uppercase tracking-widest text-accent">
-                  Achievement
+                  {ui.achievement}
                 </p>
                 <h3 className="mt-1 font-semibold">{a.title}</h3>
                 <p className="text-base text-muted">
@@ -67,7 +68,7 @@ export function Home() {
         </div>
       </Section>
 
-      <Section id="education" title="Education">
+      <Section id="education" title={ui.education}>
         <Timeline
           entries={education.map((e) => ({
             key: e.degree + e.period,
@@ -80,7 +81,7 @@ export function Home() {
         />
       </Section>
 
-      <Section id="coursework" title="Relevant Coursework">
+      <Section id="coursework" title={ui.coursework}>
         <div className="grid items-start gap-6 md:grid-cols-3">
           {coursework.map((g, i) => (
             <Reveal key={g.title} delay={i * 60}>
@@ -106,7 +107,7 @@ export function Home() {
         </div>
       </Section>
 
-      <Section id="skills" title="Skills">
+      <Section id="skills" title={ui.skills}>
         <div className="grid gap-6 sm:grid-cols-2">
           {skillGroups
             .filter((g) => g.skills.some((s) => s.featured))
@@ -130,17 +131,14 @@ export function Home() {
             to="/skills"
             className="mt-6 inline-block text-base font-medium text-accent hover:underline"
           >
-            See all skills &rarr;
+            {ui.allSkills} &rarr;
           </Link>
         </Reveal>
       </Section>
 
-      <Section id="contact" title="Contact">
+      <Section id="contact" title={ui.contact}>
         <Reveal>
-          <p className="mb-6 max-w-prose text-muted">
-            Interested in robotics, learning-based control or working together? I'm happy to hear
-            from you.
-          </p>
+          <p className="mb-6 max-w-prose text-muted">{ui.contactIntro}</p>
           <div className="flex flex-wrap gap-3">
             <a
               href={`mailto:${profile.links.email}`}
@@ -154,7 +152,7 @@ export function Home() {
               rel="noopener noreferrer"
               className="inline-flex items-center gap-2 rounded-lg border border-line px-4 py-2.5 text-base font-medium hover:border-accent"
             >
-              <GithubIcon /> GitHub
+              <GithubIcon /> {ui.github}
             </a>
             <a
               href={profile.links.linkedin}
@@ -162,7 +160,7 @@ export function Home() {
               rel="noopener noreferrer"
               className="inline-flex items-center gap-2 rounded-lg border border-line px-4 py-2.5 text-base font-medium hover:border-accent"
             >
-              <LinkedinIcon /> LinkedIn
+              <LinkedinIcon /> {ui.linkedin}
             </a>
           </div>
         </Reveal>

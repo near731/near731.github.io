@@ -8,7 +8,7 @@ export const skillGroups: { title: string; skills: Skill[] }[] = [
   {
     title: 'Robotics & Simulation',
     skills: [
-      { name: 'ROS2', featured: true },
+      { name: 'ROS 2', featured: true },
       { name: 'Isaac Lab / Isaac Sim', featured: true },
       { name: 'Franka (FCI / libfranka)', featured: true },
       { name: 'RViz' },

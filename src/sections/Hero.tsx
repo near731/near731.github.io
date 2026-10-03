@@ -1,3 +1,4 @@
+import { ui } from '@/data/ui'
 import { profile } from '@/data/profile'
 import { DownloadIcon, GithubIcon, LinkedinIcon, MailIcon } from '@/components/icons'
 
@@ -16,7 +17,7 @@ export function Hero() {
         className="h-52 w-52 rounded-full border-4 border-surface object-cover shadow-lg ring-2 ring-accent sm:h-64 sm:w-64"
       />
       <p className="mt-8 font-mono text-sm uppercase tracking-widest text-accent">
-        {profile.role} · TU Munich
+        {profile.role} · {ui.university}
       </p>
       <h1 className="mt-3 text-5xl font-bold tracking-tight sm:text-6xl">{profile.name}</h1>
       <p className="mt-3 text-2xl font-medium text-accent">{profile.tagline}</p>
@@ -28,7 +29,7 @@ export function Hero() {
             href={`${import.meta.env.BASE_URL}${links.cv}`}
             className={`${btn} bg-accent text-accent-fg hover:opacity-90`}
           >
-            <DownloadIcon /> Download CV
+            <DownloadIcon /> {ui.downloadCv}
           </a>
         )}
         <a
@@ -37,7 +38,7 @@ export function Hero() {
           rel="noopener noreferrer"
           className={`${btn} border border-line hover:border-accent`}
         >
-          <GithubIcon /> GitHub
+          <GithubIcon /> {ui.github}
         </a>
         <a
           href={links.linkedin}
@@ -45,13 +46,13 @@ export function Hero() {
           rel="noopener noreferrer"
           className={`${btn} border border-line hover:border-accent`}
         >
-          <LinkedinIcon /> LinkedIn
+          <LinkedinIcon /> {ui.linkedin}
         </a>
         <a
           href={`mailto:${links.email}`}
           className={`${btn} border border-line hover:border-accent`}
         >
-          <MailIcon /> Email
+          <MailIcon /> {ui.email}
         </a>
       </div>
     </section>

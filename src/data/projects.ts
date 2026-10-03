@@ -136,7 +136,7 @@ export const projects: Project[] = [
       {
         heading: 'The idea',
         paragraphs: [
-          'Sampling-based model predictive control (MPPI) plans by simulating many candidate action sequences in parallel and favoring the cheap ones. Pure random sampling wastes most candidates. Here, a conditional flow-matching model proposes promising action sequences, so far fewer samples are needed to find a good grasp.',
+          'Sampling-based model predictive control (MPPI) simulates many candidate action sequences in parallel and favors those with lower cost. A conditional flow-matching model proposes promising sequences alongside Gaussian CEM samples, guiding the search toward useful manipulation actions.',
           'Because the candidates are evaluated in a physics simulator, the planner can reason about contact, which is what grasping and placing are about.',
         ],
       },
@@ -287,7 +287,7 @@ export const projects: Project[] = [
           columns: ['Package', 'Node', 'What it does'],
           rows: [
             ['controller', 'mpc_controller_node', 'Steering, throttle and brake commands'],
-            ['decision_making', 'state_machine_node', 'Behavioural state and speed limit at 20 Hz'],
+            ['decision_making', 'state_machine_node', 'Behavioral state and speed limit at 20 Hz'],
             ['perception', 'lane_detection_node', 'Drivable road ahead from the semantic camera'],
           ],
           note: 'Path planning was shared work with a teammate.',
@@ -296,8 +296,8 @@ export const projects: Project[] = [
       {
         heading: 'MPC controller',
         paragraphs: [
-          'The controller is the last stage of the stack. Rather than solving a continuous optimisation problem, it is a sampling-based MPC: every control cycle it rolls a fixed set of candidate steering commands forward over a short horizon with a calibrated vehicle model, scores each rollout against the reference path, and applies the best-scoring one.',
-          'The problem is re-solved from the true pose every cycle, so model error does not accumulate. The cost penalises cross-track error, heading error, steering effort, steering rate and a terminal term.',
+          'The controller is the last stage of the stack. Rather than solving a continuous optimization problem, it is a sampling-based MPC: every control cycle it rolls a fixed set of candidate steering commands forward over a short horizon with a calibrated vehicle model, scores each rollout against the reference path, and applies the best-scoring one.',
+          'The controller replans from the latest simulator pose each cycle, limiting the effect of model error across successive plans. The cost penalizes cross-track error, heading error, steering effort, steering rate and a terminal term.',
         ],
         table: {
           caption: 'MPC horizon and cost-weight parameters.',
@@ -321,7 +321,7 @@ export const projects: Project[] = [
       {
         heading: 'Decision-making state machine',
         paragraphs: [
-          'At 20 Hz, the state machine turns the detected cars, the traffic-light go/no-go signal, the planner’s occupancy clearance and the mission progress into one decision: a behavioural state, a speed limit, and emergency-stop and reverse flags.',
+          'At 20 Hz, the state machine turns the detected cars, the traffic-light go/no-go signal, the planner’s occupancy clearance and the mission progress into one decision: a behavioral state, a speed limit, and emergency-stop and reverse flags.',
         ],
         images: [
           {
@@ -331,7 +331,7 @@ export const projects: Project[] = [
           },
         ],
         table: {
-          caption: 'Behavioural states and what they do.',
+          caption: 'Behavioral states and what they do.',
           columns: ['State', 'Entry condition', 'Effect'],
           rows: [
             ['IDLE', 'no relevant car ahead', 'free-road speed limit'],
@@ -355,9 +355,9 @@ export const projects: Project[] = [
       {
         heading: 'Lane detection',
         paragraphs: [
-          'The lane detection node finds the drivable road ahead using only the semantic camera. It masks road-coloured pixels in a lower region of the image and fits a polynomial through the per-row centres of that mask by weighted least squares.',
+          'The lane detection node finds the drivable road ahead using only the semantic camera. It masks road-colored pixels in a lower region of the image and fits a polynomial through the per-row centers of that mask by weighted least squares.',
           'Rows with too few road pixels, or where the mask touches the image border, are excluded because they would bias the curve. The polynomial degree is lowered when too little of the region survives to trust a higher-order fit.',
-          'The curve is then projected onto the ground plane using the camera calibration, which gives a lane centreline in the vehicle frame. Decision making and the corridor planner use it to reason about the road’s actual curvature instead of assuming a straight road ahead.',
+          'The curve is then projected onto the ground plane using the camera calibration, which gives a lane centerline in the vehicle frame. Decision making and the corridor planner use it to reason about the road’s actual curvature instead of assuming a straight road ahead.',
         ],
       },
       {
@@ -392,7 +392,7 @@ export const projects: Project[] = [
     status: 'Completed',
     summary:
       'A neural network that answers ray queries against an object, replacing mesh raycasting in tactile simulation with about 32x faster inference at 93.8% average accuracy.',
-    tags: ['PyTorch', 'NVIDIA Warp', 'CUDA', 'Neural SDF'],
+    tags: ['PyTorch', 'NVIDIA Warp', 'CUDA', 'Directional distances'],
     banner: {
       kicker: 'Advanced Deep Learning for Robotics · Winter Semester 2026',
       layout: 'overlay',
@@ -465,18 +465,18 @@ export const projects: Project[] = [
           caption: 'Inference time, accuracy and correlation per object.',
           columns: ['Object', 'RC time', 'NN time', 'Loss', 'Accuracy', 'Correlation'],
           rows: [
-            ['Controller', '0.3165 s', '0.0106 s', '0.1249', '89.54 %', '0.854'],
-            ['Screw', '0.2532 s', '0.0092 s', '0.0972', '93.66 %', '0.932'],
-            ['Bottle', '0.2619 s', '0.0111 s', '0.0887', '95.53 %', '0.941'],
-            ['Cube', '0.2889 s', '0.0120 s', '0.0883', '95.88 %', '0.948'],
-            ['Dog', '0.2616 s', '0.0077 s', '0.0875', '93.80 %', '0.925'],
-            ['Cat', '0.2958 s', '0.0088 s', '0.1003', '94.14 %', '0.924'],
-            ['Horse', '0.3331 s', '0.0073 s', '0.0791', '94.81 %', '0.935'],
-            ['Lion', '0.3092 s', '0.0089 s', '0.0808', '94.49 %', '0.931'],
-            ['Wildcat', '0.3620 s', '0.0097 s', '0.0965', '93.52 %', '0.909'],
-            ['Bear', '0.3202 s', '0.0086 s', '0.1206', '93.02 %', '0.883'],
+            ['Controller', '0.3165 s', '0.0106 s', '0.1249', '89.54%', '0.854'],
+            ['Screw', '0.2532 s', '0.0092 s', '0.0972', '93.66%', '0.932'],
+            ['Bottle', '0.2619 s', '0.0111 s', '0.0887', '95.53%', '0.941'],
+            ['Cube', '0.2889 s', '0.0120 s', '0.0883', '95.88%', '0.948'],
+            ['Dog', '0.2616 s', '0.0077 s', '0.0875', '93.80%', '0.925'],
+            ['Cat', '0.2958 s', '0.0088 s', '0.1003', '94.14%', '0.924'],
+            ['Horse', '0.3331 s', '0.0073 s', '0.0791', '94.81%', '0.935'],
+            ['Lion', '0.3092 s', '0.0089 s', '0.0808', '94.49%', '0.931'],
+            ['Wildcat', '0.3620 s', '0.0097 s', '0.0965', '93.52%', '0.909'],
+            ['Bear', '0.3202 s', '0.0086 s', '0.1206', '93.02%', '0.883'],
           ],
-          summaryRow: ['Average', '0.2993 s', '0.0094 s', '0.0954', '93.84 %', '0.918'],
+          summaryRow: ['Average', '0.2993 s', '0.0094 s', '0.0954', '93.84%', '0.918'],
           note: 'Accuracy is the share of rays predicted within 0.05 of the raycast distance.',
         },
       },
@@ -543,14 +543,16 @@ export const projects: Project[] = [
       },
       {
         heading: 'Results',
-        paragraphs: ['Error and fit on the held-out test set, for each of the three targets.'],
+        paragraphs: [
+          'Results from the July 2024 model revision. Error and fit on the held-out test set, for each of the three targets.',
+        ],
         table: {
           caption: 'Test-set error and fit per target.',
           columns: ['Target', 'Mean absolute error', 'Mean squared error', 'R²'],
           rows: [
-            ['Body mass', '3.81 kg', '59.56', '0.793'],
-            ['Height', '1.80 cm', '15.53', '0.833'],
-            ['Age', '2.74 years', '30.61', '0.902'],
+            ['Body mass', '3.81 kg', '59.56 kg²', '0.793'],
+            ['Height', '1.80 cm', '15.53 cm²', '0.833'],
+            ['Age', '2.74 years', '30.61 years²', '0.902'],
           ],
         },
       },

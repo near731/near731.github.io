@@ -8,10 +8,10 @@ export const profile = {
   tagline: 'Robotics + Deep Learning',
   location: 'Munich, Germany',
   intro:
-    'I build learning-based methods for physical systems. My interests are Deep Learning and Control Theory, particularly Optimal/Adaptive Control and Reinforcement Learning.',
+    'I build learning-based methods for physical systems. My interests are deep learning and control theory, particularly optimal and adaptive control and reinforcement learning.',
   summary: [
-    "I'm pursuing my Master's in Mechatronics, Robotics and Biomechanical Engineering at the Technical University of Munich, focusing on Machine Learning, Robotics and Control Theory. I hold a Bachelor's degree in Mechatronics from the Budapest University of Technology and Economics.",
-    'I have a passion for challenges and in-depth analysis. My goal is to develop not only functional but also efficient solutions, with practical experience in Deep Learning and ROS2.',
+    "I'm pursuing my Master's in Mechatronics, Robotics and Biomechanical Engineering at the Technical University of Munich, focusing on machine learning, robotics and control theory. I hold a Bachelor's degree in Mechatronics from the Budapest University of Technology and Economics.",
+    'My practical experience includes deep learning, ROS 2 and sampling-based control for robotic manipulation.',
   ],
   interests: [
     'Deep Learning',

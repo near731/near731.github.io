@@ -1,3 +1,4 @@
+import { ui } from '@/data/ui'
 import { Link, useParams } from 'react-router-dom'
 import { Tag } from '@/components/Section'
 import { Reveal } from '@/components/Reveal'
@@ -71,9 +72,9 @@ export function ProjectDetail() {
   if (!project) {
     return (
       <div className="mx-auto max-w-4xl px-4 py-20 sm:px-6">
-        <h1 className="text-3xl font-bold">Project not found</h1>
+        <h1 className="text-3xl font-bold">{ui.projectNotFound}</h1>
         <Link to="/projects" className="mt-4 inline-block text-accent hover:underline">
-          &larr; All projects
+          &larr; {ui.allProjects}
         </Link>
       </div>
     )
@@ -88,7 +89,7 @@ export function ProjectDetail() {
   return (
     <article className="mx-auto max-w-4xl px-4 py-12 sm:px-6 sm:py-16">
       <Link to="/projects" className="text-base font-medium text-accent hover:underline">
-        &larr; All projects
+        &larr; {ui.allProjects}
       </Link>
 
       <Reveal>
@@ -211,7 +212,7 @@ export function ProjectDetail() {
 
       {figures.length > 0 && (
         <Reveal className="mt-12">
-          <h2 className="mb-4 text-2xl font-semibold tracking-tight">Figures</h2>
+          <h2 className="mb-4 text-2xl font-semibold tracking-tight">{ui.figures}</h2>
           <div className="space-y-6">
             {figures.map((img) => (
               <figure key={img.src}>
@@ -228,7 +229,7 @@ export function ProjectDetail() {
       {project.links && (
         <Reveal className="mt-12">
           <h2 className="mb-3 text-2xl font-semibold tracking-tight">
-            {project.linksTitle ?? 'Links'}
+            {project.linksTitle ?? ui.links}
           </h2>
           <ul className="space-y-3">
             {project.links.map((l) => (

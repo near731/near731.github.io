@@ -20,9 +20,9 @@ test('home renders key sections and links', async ({ page }) => {
 test('subpages are reachable', async ({ page }) => {
   await page.goto('/')
   await page.getByRole('navigation', { name: 'Main' }).getByRole('link', { name: 'Skills' }).click()
-  await expect(page.getByRole('heading', { name: 'Skills', exact: true })).toBeVisible()
+  await expect(page.getByRole('heading', { level: 1, name: 'Skills', exact: true })).toBeVisible()
   await page.goto('/projects')
-  await expect(page.getByRole('heading', { name: 'Projects', exact: true })).toBeVisible()
+  await expect(page.getByRole('heading', { level: 1, name: 'Projects', exact: true })).toBeVisible()
 })
 
 test('theme toggle switches and persists', async ({ page }) => {
@@ -75,4 +75,63 @@ test('reduced motion: no autoplay, native controls instead', async ({ page }) =>
   await expect(hero).toHaveJSProperty('loop', false)
   await expect(hero).toHaveJSProperty('controls', true)
   await expect(page.getByRole('button', { name: /Pause video|Play video/ })).toHaveCount(0)
+})
+
+test('manual video pause survives scrolling away and back, then Play resumes', async ({ page }) => {
+  await page.emulateMedia({ reducedMotion: 'no-preference' })
+  // Chromium may lack H.264 support. Stub media playback, retaining real scroll/visibility events.
+  await page.addInitScript(() => {
+    const paused = new WeakMap<HTMLMediaElement, boolean>()
+    Object.defineProperty(HTMLMediaElement.prototype, 'paused', {
+      get() {
+        return paused.get(this) ?? true
+      },
+    })
+    HTMLMediaElement.prototype.play = function () {
+      paused.set(this, false)
+      this.dataset.playCalls = String(Number(this.dataset.playCalls ?? 0) + 1)
+      this.dispatchEvent(new Event('play'))
+      return Promise.resolve()
+    }
+    HTMLMediaElement.prototype.pause = function () {
+      paused.set(this, true)
+      this.dispatchEvent(new Event('pause'))
+    }
+    const NativeObserver = window.IntersectionObserver
+    window.IntersectionObserver = class extends NativeObserver {
+      constructor(callback: IntersectionObserverCallback, options?: IntersectionObserverInit) {
+        super((entries, observer) => {
+          callback(entries, observer)
+          for (const entry of entries) {
+            if (entry.target instanceof HTMLVideoElement) {
+              entry.target.dataset.visible = String(entry.isIntersecting)
+            }
+          }
+        }, options)
+      }
+    }
+  })
+  await page.goto('/projects/mppi-flow-matching-franka')
+  const hero = page.locator('article video').first()
+  await hero.scrollIntoViewIfNeeded()
+  await expect(hero).toHaveAttribute('data-visible', 'true')
+  await page.getByRole('button', { name: 'Pause video' }).click()
+  await expect(hero).toHaveJSProperty('paused', true)
+  const calls = await hero.getAttribute('data-play-calls')
+
+  await page.locator('footer').scrollIntoViewIfNeeded()
+  await expect(hero).toHaveAttribute('data-visible', 'false')
+  await hero.scrollIntoViewIfNeeded()
+  await expect(hero).toHaveAttribute('data-visible', 'true')
+  await expect(hero).toHaveJSProperty('paused', true)
+  await expect(hero).toHaveAttribute('data-play-calls', calls!)
+
+  await page.getByRole('button', { name: 'Play video' }).click()
+  await expect(hero).toHaveJSProperty('paused', false)
+  await page.locator('footer').scrollIntoViewIfNeeded()
+  await expect(hero).toHaveAttribute('data-visible', 'false')
+  await expect(hero).toHaveJSProperty('paused', true)
+  await hero.scrollIntoViewIfNeeded()
+  await expect(hero).toHaveAttribute('data-visible', 'true')
+  await expect(hero).toHaveJSProperty('paused', false)
 })
