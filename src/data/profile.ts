@@ -1,4 +1,5 @@
 import avatar from '@/assets/aron-nemeth.jpg'
+import { cvDownloads } from './cv'
 
 export const profile = {
   name: 'Áron Imre Németh',
@@ -24,7 +25,6 @@ export const profile = {
     github: 'https://github.com/near731',
     linkedin: 'https://www.linkedin.com/in/aron-imre-nemeth/',
     email: 'aron_imre.nemeth@tum.de',
-    // TODO(owner): set to 'cv/<file>.pdf' (file in public/cv/) to show the CV buttons.
-    cv: null as string | null,
+    cv: cvDownloads.en as string | null,
   },
 } as const

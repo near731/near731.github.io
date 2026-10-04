@@ -27,6 +27,7 @@ export function Hero() {
         {links.cv && (
           <a
             href={`${import.meta.env.BASE_URL}${links.cv}`}
+            download
             className={`${btn} bg-accent text-accent-fg hover:opacity-90`}
           >
             <DownloadIcon /> {ui.downloadCv}

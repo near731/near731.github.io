@@ -16,6 +16,7 @@ export const sharedFields = new Set([
   'src',
   'poster',
   'photo',
+  'cv',
   'logo',
   'layout',
   'diagram',

@@ -53,7 +53,11 @@ describe('language content', () => {
         enProject.sections.map((s) => s.diagram),
       )
     }
-    expect(de.profile.links).toEqual(englishContent.profile.links)
+    expect(de.profile.links).toEqual({
+      ...englishContent.profile.links,
+      cv: 'cv/Aron_Imre_Nemeth_CV_DE.pdf',
+    })
+    expect(englishContent.profile.links.cv).toBe('cv/Aron_Imre_Nemeth_CV_EN.pdf')
     expect(localize({ slug: 'Projects', url: 'Home', layout: 'overlay' }, 'de')).toEqual({
       slug: 'Projects',
       url: 'Home',

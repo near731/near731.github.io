@@ -1,4 +1,5 @@
 import { profile } from '@/data/profile'
+import { cvDownloads } from '@/data/cv'
 import { experience, achievements } from '@/data/experience'
 import { education } from '@/data/education'
 import { coursework } from '@/data/coursework'
@@ -23,6 +24,10 @@ export const englishContent = {
 export type SiteContent = typeof englishContent
 
 const germanContent: SiteContent = localize(englishContent, 'de')
+germanContent.profile = {
+  ...germanContent.profile,
+  links: { ...germanContent.profile.links, cv: cvDownloads.de },
+}
 // Show German originals once, while retaining official English course names.
 germanContent.coursework = germanContent.coursework.map((group) => ({
   ...group,

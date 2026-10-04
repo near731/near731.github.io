@@ -1,5 +1,34 @@
 import { expect, test } from '@playwright/test'
 
+test('CV downloads follow the selected language in the hero and navigation', async ({ page }) => {
+  await page.goto('/')
+  for (const [language, label, filename] of [
+    ['English', 'Download CV', 'Aron_Imre_Nemeth_CV_EN.pdf'],
+    ['Deutsch', 'Lebenslauf herunterladen', 'Aron_Imre_Nemeth_CV_DE.pdf'],
+  ]) {
+    await page.getByRole('button', { name: language, exact: true }).click()
+    const heroLink = page.getByRole('link', { name: label, exact: true })
+    await expect(heroLink).toHaveAttribute('href', `/cv/${filename}`)
+    await expect(heroLink).toHaveAttribute('download', '')
+    const downloadPromise = page.waitForEvent('download')
+    await heroLink.click()
+    const download = await downloadPromise
+    expect(download.suggestedFilename()).toBe(filename)
+    expect(await download.failure()).toBeNull()
+    const headerLink = page.locator('header a[download]')
+    await expect(headerLink).toHaveAttribute('href', `/cv/${filename}`)
+    const response = await page.request.get(`/cv/${filename}`)
+    expect(response.headers()['content-type']).toContain('application/pdf')
+    expect((await response.body()).subarray(0, 5).toString()).toBe('%PDF-')
+  }
+  await page.setViewportSize({ width: 375, height: 812 })
+  await page.getByRole('button', { name: 'Menü öffnen' }).click()
+  await expect(page.locator('#mobile-nav a[download]')).toHaveAttribute(
+    'href',
+    '/cv/Aron_Imre_Nemeth_CV_DE.pdf',
+  )
+})
+
 test('language defaults to English even with a German browser preference', async ({ browser }) => {
   const context = await browser.newContext({ locale: 'de-DE' })
   const page = await context.newPage()
