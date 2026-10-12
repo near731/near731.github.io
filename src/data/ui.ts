@@ -48,6 +48,7 @@ export const ui = {
   placeholderAlt: 'Placeholder image',
   video: {
     simulation: 'Simulation',
+    hardware: 'Real Hardware',
     flowPrior: 'flow-prior rollouts',
     cem: 'CEM rollouts',
     pause: 'Pause',
@@ -59,7 +60,7 @@ export const ui = {
 
 export const plannerDiagram = {
   description:
-    'Planner loop: from the robot and object state, candidates come from a learned flow-matching prior and from CEM sampling, 500 sequences are rolled out in parallel in Isaac Lab, the lowest-cost candidates are selected, and the executed action leads to the next state.',
+    'Planner loop: candidates come from a learned flow-matching prior and CEM sampling, 500 sequences are simulated in parallel in Isaac Lab and combined using cost-based MPPI weights, and the executed action leads to the next state.',
   state: 'State',
   stateDetail: 'robot + object',
   cem: 'CEM sampling',
@@ -70,8 +71,8 @@ export const plannerDiagram = {
   rolloutsDetail: 'K = 500 action sequences, 16 steps each',
   simulation: 'Parallel Isaac Lab rollout',
   simulationDetail: 'all sequences simulated in parallel',
-  selection: 'Cost & elite selection',
-  selectionDetail: 'the best candidates form the next plan',
+  selection: 'MPPI cost weighting',
+  selectionDetail: 'cost-weighted sequences form the next plan',
   action: 'Executed action',
   actionDetail: 'first part of the plan, tracked by CRISP',
   feedback: 'the new state starts the next planning step',

@@ -108,7 +108,24 @@ export function ProjectDetail() {
       </Reveal>
 
       <Reveal className="mt-8">
-        {project.banner ? (
+        {project.heroVideos ? (
+          <div>
+            <div className="grid gap-4 sm:grid-cols-2">
+              {project.heroVideos.map((video) => (
+                <figure key={video.src}>
+                  <div className="overflow-hidden rounded-xl border border-line">
+                    <VideoClip video={video} hero />
+                  </div>
+                  <figcaption className="mt-2 text-sm text-muted">
+                    <span className="block font-medium text-fg">{video.title}</span>
+                    {video.caption}
+                  </figcaption>
+                </figure>
+              ))}
+            </div>
+            {project.heroNote && <p className="mt-3 text-sm text-muted">{project.heroNote}</p>}
+          </div>
+        ) : project.banner ? (
           <HeroBanner project={project} />
         ) : (
           <figure>
@@ -149,66 +166,93 @@ export function ProjectDetail() {
       )}
 
       <div className="max-w-3xl">
-        {project.sections.map((s) => (
-          <Reveal key={s.heading} className="mt-12">
-            <h2 className="mb-3 text-2xl font-semibold tracking-tight">{s.heading}</h2>
-            <div className="space-y-3 text-muted">
-              {s.paragraphs?.map((p) => (
-                <p key={p}>
-                  <RichText text={p} />
-                </p>
-              ))}
-              {s.bullets && (
-                <ul className="list-disc space-y-2 pl-5 marker:text-accent">
-                  {s.bullets.map((b) => (
-                    <li key={b}>
-                      <RichText text={b} />
-                    </li>
-                  ))}
-                </ul>
-              )}
-            </div>
-            {s.table && <DataTable table={s.table} />}
-            {s.diagram === 'mppi-flow' && (
-              <div className="mt-2">
-                <MppiDiagram />
-              </div>
-            )}
-            {s.videos && (
-              <div
-                className={`mt-5 grid gap-4 ${
-                  s.videoLayout === 'grid' ? 'sm:grid-cols-3' : 'sm:grid-cols-2'
-                }`}
-              >
-                {s.videos.map((v, i) => (
-                  <figure
-                    key={v.src}
-                    className={s.videoLayout !== 'grid' && i === 0 ? 'sm:col-span-2' : ''}
-                  >
-                    <div className="overflow-hidden rounded-xl border border-line">
-                      <VideoClip video={v} />
-                    </div>
-                    <figcaption className="mt-1.5 text-sm text-muted">{v.title}</figcaption>
-                  </figure>
+        {project.sections.map((s) => {
+          const content = (
+            <>
+              <div className="space-y-3 text-muted">
+                {s.paragraphs?.map((p) => (
+                  <p key={p}>
+                    <RichText text={p} />
+                  </p>
                 ))}
-              </div>
-            )}
-            {s.placeholderFigures?.map((caption) => (
-              <figure key={caption} className="mt-5">
-                <ProjectImage className="aspect-[16/9] w-full rounded-xl border border-line" />
-                <figcaption className="mt-2 text-sm text-muted">{caption}</figcaption>
-              </figure>
-            ))}
-            {s.images?.map((img) => (
-              <figure key={img.src} className="mt-5">
-                <ProjectImage image={img} className="w-full rounded-xl border border-line" />
-                {img.caption && (
-                  <figcaption className="mt-2 text-sm text-muted">{img.caption}</figcaption>
+                {s.bullets && (
+                  <ul className="list-disc space-y-2 pl-5 marker:text-accent">
+                    {s.bullets.map((b) => (
+                      <li key={b}>
+                        <RichText text={b} />
+                      </li>
+                    ))}
+                  </ul>
                 )}
-              </figure>
-            ))}
-          </Reveal>
-        ))}
+              </div>
+              {s.table && <DataTable table={s.table} />}
+              {s.diagram === 'mppi-flow' && (
+                <div className="mt-2">
+                  <MppiDiagram />
+                </div>
+              )}
+              {s.videos && (
+                <div
+                  className={`mt-5 grid gap-4 ${
+                    s.videoLayout === 'grid' ? 'sm:grid-cols-3' : 'sm:grid-cols-2'
+                  }`}
+                >
+                  {s.videos.map((v, i) => (
+                    <figure
+                      key={v.src}
+                      className={
+                        (s.videoLayout === 'featured' || !s.videoLayout) && i === 0
+                          ? 'sm:col-span-2'
+                          : ''
+                      }
+                    >
+                      <div className="overflow-hidden rounded-xl border border-line">
+                        <VideoClip video={v} />
+                      </div>
+                      <figcaption className="mt-1.5 text-sm text-muted">
+                        <span className="block">{v.title}</span>
+                        {v.caption}
+                      </figcaption>
+                    </figure>
+                  ))}
+                </div>
+              )}
+              {s.placeholderFigures?.map((caption) => (
+                <figure key={caption} className="mt-5">
+                  <ProjectImage className="aspect-[16/9] w-full rounded-xl border border-line" />
+                  <figcaption className="mt-2 text-sm text-muted">{caption}</figcaption>
+                </figure>
+              ))}
+              {s.images?.map((img) => (
+                <figure key={img.src} className="mt-5">
+                  <ProjectImage image={img} className="w-full rounded-xl border border-line" />
+                  {img.caption && (
+                    <figcaption className="mt-2 text-sm text-muted">{img.caption}</figcaption>
+                  )}
+                </figure>
+              ))}
+            </>
+          )
+          return (
+            <Reveal key={s.heading} className="mt-12">
+              {s.collapsible ? (
+                <details className="rounded-xl border border-line bg-surface p-4 sm:p-5">
+                  <summary className="cursor-pointer rounded-md text-accent">
+                    <h2 className="inline text-xl font-semibold tracking-tight text-fg">
+                      {s.heading}
+                    </h2>
+                  </summary>
+                  <div className="mt-4">{content}</div>
+                </details>
+              ) : (
+                <>
+                  <h2 className="mb-3 text-2xl font-semibold tracking-tight">{s.heading}</h2>
+                  {content}
+                </>
+              )}
+            </Reveal>
+          )
+        })}
       </div>
 
       {figures.length > 0 && (

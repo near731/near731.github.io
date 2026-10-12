@@ -32,7 +32,7 @@ function Arrow() {
 
 /**
  * Redrawn from the owner's report figure: state -> two proposal sources -> parallel rollouts ->
- * cost and elite selection -> executed action, closing the loop through the state update.
+ * MPPI cost weighting -> executed action, closing the loop through the state update.
  */
 export function MppiDiagram() {
   const { plannerDiagram } = useContent()

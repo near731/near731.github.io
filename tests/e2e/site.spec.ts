@@ -10,7 +10,12 @@ test('home renders key sections and links', async ({ page }) => {
   await expect(page.getByRole('heading', { name: 'Relevant Coursework' })).toBeVisible()
   await expect(page.getByText('Roboterdynamik')).toBeVisible()
   await expect(page.getByText('Deep Generative Models')).toHaveCount(0)
-  await expect(page.getByRole('link', { name: /CV/ })).toHaveCount(0)
+  const cvLinks = page.getByRole('link', { name: /CV/ })
+  await expect(cvLinks).toHaveCount(2)
+  for (const link of await cvLinks.all()) {
+    await expect(link).toHaveAttribute('href', '/cv/Aron_Imre_Nemeth_CV_EN.pdf')
+    await expect(link).toHaveAttribute('download', '')
+  }
   await expect(page.getByRole('link', { name: 'LinkedIn' }).first()).toHaveAttribute(
     'href',
     'https://www.linkedin.com/in/aron-imre-nemeth/',
@@ -63,9 +68,9 @@ test('lab hero is a silent looping clip with a pause button', async ({ page }) =
   const hero = page.locator('article video').first()
   await expect(hero).toHaveJSProperty('muted', true)
   await expect(hero).toHaveJSProperty('loop', true)
-  await expect(page.getByRole('button', { name: /Pause video|Play video/ })).toBeVisible()
+  await expect(page.getByRole('button', { name: /Pause video|Play video/ }).first()).toBeVisible()
   await expect(page.getByText('Simulation').first()).toBeVisible()
-  await expect(page.locator('article video')).toHaveCount(10)
+  await expect(page.locator('article video')).toHaveCount(14)
 })
 
 test('reduced motion: no autoplay, native controls instead', async ({ page }) => {
@@ -115,7 +120,7 @@ test('manual video pause survives scrolling away and back, then Play resumes', a
   const hero = page.locator('article video').first()
   await hero.scrollIntoViewIfNeeded()
   await expect(hero).toHaveAttribute('data-visible', 'true')
-  await page.getByRole('button', { name: 'Pause video' }).click()
+  await page.getByRole('button', { name: 'Pause video' }).first().click()
   await expect(hero).toHaveJSProperty('paused', true)
   const calls = await hero.getAttribute('data-play-calls')
 
@@ -126,7 +131,7 @@ test('manual video pause survives scrolling away and back, then Play resumes', a
   await expect(hero).toHaveJSProperty('paused', true)
   await expect(hero).toHaveAttribute('data-play-calls', calls!)
 
-  await page.getByRole('button', { name: 'Play video' }).click()
+  await hero.locator('..').getByRole('button', { name: 'Play video' }).click()
   await expect(hero).toHaveJSProperty('paused', false)
   await page.locator('footer').scrollIntoViewIfNeeded()
   await expect(hero).toHaveAttribute('data-visible', 'false')

@@ -1,4 +1,10 @@
 export const generalTranslations: Record<string, string> = {
+  'Real robot': 'Realer Roboter',
+  'Planner loop: candidates come from a learned flow-matching prior and CEM sampling, 500 sequences are simulated in parallel in Isaac Lab and combined using cost-based MPPI weights, and the executed action leads to the next state.':
+    'Planungsschleife: Kandidaten werden mit einem trainierten Flow-Matching-Prior und CEM-Sampling erzeugt. 500 Sequenzen werden parallel in Isaac Lab simuliert und mit kostenabhängigen MPPI-Gewichten kombiniert. Die ausgeführte Aktion führt zum nächsten Zustand.',
+  'MPPI cost weighting': 'MPPI-Kostengewichtung',
+  'cost-weighted sequences form the next plan':
+    'Kostengewichtete Sequenzen bilden den nächsten Plan',
   Language: 'Sprache',
   English: 'Englisch',
   Deutsch: 'Deutsch',

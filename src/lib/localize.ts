@@ -22,6 +22,7 @@ export const sharedFields = new Set([
   'diagram',
   'videoLayout',
   'status',
+  'kind',
   'nativeLanguages',
 ])
 

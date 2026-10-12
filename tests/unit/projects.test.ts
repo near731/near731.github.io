@@ -13,7 +13,12 @@ describe('projects data', () => {
 
   it('resolves every video and poster file', () => {
     for (const p of projects) {
-      const clips = [p.heroVideo, ...p.sections.flatMap((s) => s.videos ?? [])]
+      const clips = [
+        p.heroVideo,
+        p.coverVideo,
+        ...(p.heroVideos ?? []),
+        ...p.sections.flatMap((s) => s.videos ?? []),
+      ]
       for (const v of clips) {
         if (!v) continue
         expect(v.src, v.title).toBeTruthy()

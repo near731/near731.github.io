@@ -12,12 +12,12 @@ export function Projects() {
         <div className="grid gap-6 sm:grid-cols-2">
           {projects.map((p, i) => (
             <Reveal key={p.slug} delay={i * 70}>
-              <Link
-                to={`/projects/${p.slug}`}
-                className="group flex h-full flex-col overflow-hidden rounded-xl border border-line bg-surface transition-colors hover:border-accent/60"
-              >
+              <div className="group relative flex h-full flex-col overflow-hidden rounded-xl border border-line bg-surface transition-colors hover:border-accent/60">
                 <ProjectCover project={p} className="aspect-[16/10] w-full border-b border-line" />
-                <div className="flex flex-1 flex-col p-5">
+                <Link
+                  to={`/projects/${p.slug}`}
+                  className="flex flex-1 flex-col p-5 after:absolute after:inset-0 after:z-10"
+                >
                   <p className="font-mono text-sm text-accent">
                     {ui.statusLabels[p.status]} · {p.period}
                   </p>
@@ -30,8 +30,8 @@ export function Projects() {
                       <Tag key={t}>{t}</Tag>
                     ))}
                   </div>
-                </div>
-              </Link>
+                </Link>
+              </div>
             </Reveal>
           ))}
         </div>

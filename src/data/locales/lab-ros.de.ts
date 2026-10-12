@@ -1,4 +1,43 @@
 export const labRosTranslations: Record<string, string> = {
+  'Real Hardware': 'Reale Hardware',
+  '2.5× playback speed': '2,5-fache Wiedergabegeschwindigkeit',
+  '3× playback speed': '3-fache Wiedergabegeschwindigkeit',
+  'Real wrist-camera view of the robot gripper carrying a red LEGO brick.':
+    'Blick aus der Handgelenk-Kamera des realen Roboters: Der Greifer trägt einen roten LEGO-Stein.',
+  'Two more wrist-camera recordings from the real robot. Each clip is shown at 2.5× playback speed. Hardware evaluation remains TODO.':
+    'Zwei weitere Aufnahmen der Handgelenk-Kamera am realen Roboter. Jeder Clip wird mit 2,5-facher Geschwindigkeit abgespielt. Hardware-Auswertung: weiterhin TODO.',
+  'A sampling-based MPC planner with a learned flow-matching prior, developed in Isaac Lab and deployed on a real Franka Research 3 for pick-and-place.':
+    'Ein samplingbasierter MPC-Planer mit einem trainierten Flow-Matching-Prior, entwickelt in Isaac Lab und für Pick-and-Place auf einem realen Franka Research 3 eingesetzt.',
+  'Pick and place in simulation': 'Pick-and-Place in der Simulation',
+  'Isaac Lab · 3× playback speed': 'Isaac Lab · 3-fache Wiedergabegeschwindigkeit',
+  'Real robot: wrist camera, episode 8': 'Realer Roboter: Handgelenk-Kamera, Episode 8',
+  'Real robot: wrist camera, episode 3': 'Realer Roboter: Handgelenk-Kamera, Episode 3',
+  'Real robot: wrist camera, episode 6': 'Realer Roboter: Handgelenk-Kamera, Episode 6',
+  'Real robot: wrist camera, episode 7': 'Realer Roboter: Handgelenk-Kamera, Episode 7',
+  '12 October 2026 · 2.5× playback speed': '12. Oktober 2026 · 2,5-fache Wiedergabegeschwindigkeit',
+  'Separate simulation and real-robot recordings of the pick-and-place task.':
+    'Separate Aufnahmen der Pick-and-Place-Aufgabe aus der Simulation und vom realen Roboter.',
+  Evaluation: 'Auswertung',
+  'Pick and place (simulation)': 'Pick-and-Place (Simulation)',
+  '98.7%': '98,7 %',
+  'Simulation: 148 of 150 attempts, 95% Wilson CI 95.3–99.6%. FoundationPose wrist-camera perception and CRISP control; evaluated on 6 October 2026.':
+    'Simulation: 148 von 150 Versuchen; 95-%-Wilson-Konfidenzintervall: 95,3–99,6 %. FoundationPose mit Handgelenk-Kamera und CRISP-Regelung; ausgewertet am 6. Oktober 2026.',
+  'Hardware evaluation': 'Hardware-Auswertung',
+  TODO: 'TODO',
+  'Real-robot demonstrations are available. A hardware evaluation sweep is still pending; no hardware success rate is reported.':
+    'Demonstrationen am realen Roboter liegen vor. Die systematische Hardware-Auswertung steht noch aus; eine Erfolgsquote für die Hardware wird daher noch nicht angegeben.',
+  'Plan: MPPI combines the candidate action sequences using cost-based weights, favoring lower-cost rollouts. Planning is asynchronous: the robot keeps executing the committed part of the previous plan while the next one is computed.':
+    'Planung: MPPI kombiniert die möglichen Aktionssequenzen mit kostenabhängigen Gewichten und bevorzugt Rollouts mit geringeren Kosten. Die Planung läuft asynchron: Während der nächste Plan berechnet wird, führt der Roboter den bereits festgelegten Abschnitt des vorherigen Plans weiter aus.',
+  'Perception: [FoundationPose](https://github.com/NVlabs/FoundationPose) estimates the object pose from wrist-camera images in simulation and on the real robot. After the gripper closes, the held-object pose is derived from the gripper pose and its attachment offset.':
+    'Wahrnehmung: [FoundationPose](https://github.com/NVlabs/FoundationPose) schätzt die Objektpose aus Bildern der Handgelenk-Kamera, sowohl in der Simulation als auch am realen Roboter. Nach dem Schließen des Greifers wird die Pose des gehaltenen Objekts aus der Greiferpose und dem relativen Versatz zwischen Greifer und Objekt abgeleitet.',
+  'More real-robot runs': 'Weitere Durchläufe am realen Roboter',
+  'Wrist-camera recordings from 12 October 2026. Each clip is shown at 2.5× playback speed. These demonstrations are not a hardware evaluation sweep.':
+    'Aufnahmen der Handgelenk-Kamera vom 12. Oktober 2026. Jeder Clip wird mit 2,5-facher Geschwindigkeit abgespielt. Diese Demonstrationen ersetzen keine systematische Hardware-Auswertung.',
+  'Pick-and-place runs on the real Franka Research 3 using wrist-camera perception. Hardware evaluation is TODO: perception remains noisy, and a sweep for quantitative results is pending. The reported success rate is from simulation.':
+    'Pick-and-Place läuft auf dem realen Franka Research 3 mit Wahrnehmung über die Handgelenk-Kamera. Hardware-Auswertung: TODO. Die Wahrnehmung ist noch verrauscht; eine systematische Auswertung für quantitative Ergebnisse steht aus. Die angegebene Erfolgsquote stammt aus der Simulation.',
+  'Earlier work: grasp and lift': 'Frühere Arbeit: Greifen und Anheben',
+  'An earlier simulation study: 91.7% success (550 of 600 attempts over six objects, 95% CI 89.2–93.6%), using ground-truth object poses. This is a separate task and setup from the current pick-and-place evaluation.':
+    'Eine frühere Simulationsstudie: 91,7 % Erfolg (550 von 600 Versuchen mit sechs Objekten; 95-%-Konfidenzintervall: 89,2–93,6 %) mit bekannten Objektposen (Ground Truth). Aufgabe und Versuchsaufbau unterscheiden sich von der aktuellen Pick-and-Place-Auswertung.',
   '45': '45',
   'Sampling-based MPC with a flow-matching prior': 'Samplingbasiertes MPC mit Flow-Matching-Prior',
   'Learning-guided model predictive control for grasping and pick-and-place with a Franka arm':

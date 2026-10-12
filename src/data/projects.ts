@@ -38,6 +38,7 @@ export interface ProjectTable {
 
 export interface ProjectSection {
   heading: string
+  collapsible?: boolean
   paragraphs?: string[]
   bullets?: string[]
   table?: ProjectTable
@@ -47,14 +48,16 @@ export interface ProjectSection {
   /** Drawn planner diagram inside the section. */
   diagram?: 'mppi-flow'
   videos?: ProjectVideo[]
-  /** featured = first clip wide, rest in two columns; grid = three columns. */
-  videoLayout?: 'featured' | 'grid'
+  /** featured = first clip wide; grid = three columns; pairs = two equal columns. */
+  videoLayout?: 'featured' | 'grid' | 'pairs'
 }
 
 export interface ProjectVideo {
   src: string
   poster: string
   title: string
+  kind?: 'simulation' | 'hardware'
+  caption?: string
   /** Draw the red/blue trajectory legend over the clip. */
   legend?: boolean
 }
@@ -76,6 +79,8 @@ export interface Project {
   results?: { label: string; value: string; note?: string }[]
   /** Looping clip used as the hero instead of an image. */
   heroVideo?: ProjectVideo
+  heroVideos?: ProjectVideo[]
+  heroNote?: string
   /** Text drawn over the hero image. */
   banner?: {
     kicker?: string
@@ -85,6 +90,7 @@ export interface Project {
   }
   /** Card cover when it should differ from the hero. */
   cover?: ProjectImage
+  coverVideo?: ProjectVideo
   /** Big figure at the top and card cover. Missing = generated "Placeholder" image. */
   hero?: ProjectImage
   /** Extra figures shown at the bottom. */
@@ -104,32 +110,44 @@ export const projects: Project[] = [
     context: 'Research internship, Learning Systems and Robotics Lab, TU Munich',
     status: 'In progress',
     summary:
-      'A sampling-based MPC planner for tabletop manipulation whose action candidates come partly from a learned flow-matching prior. Developed in Isaac Lab, now moving to a real Franka Research 3.',
+      'A sampling-based MPC planner with a learned flow-matching prior, developed in Isaac Lab and deployed on a real Franka Research 3 for pick-and-place.',
     tags: ['MPC', 'Flow Matching', 'Isaac Lab', 'CRISP', 'FoundationPose', 'Franka'],
     banner: {
       kicker: 'Research internship · Learning Systems and Robotics Lab · since 05/2026',
       layout: 'stacked',
     },
-    heroVideo: labClip(
-      'hero-planner-view',
-      'Pick and place in simulation with the planner trajectories drawn',
-      true,
-    ),
-    cover: {
-      src: lab('hero-planner-view.webp'),
-      alt: 'The robot arm lowering the gripper onto a red LEGO brick, surrounded by drawn red and blue planner trajectories.',
-    },
-    resultsTitle: 'Results in simulation',
-    results: [
+    heroVideos: [
       {
-        label: 'Grasp and lift',
-        value: '91.7%',
-        note: '550 of 600 attempts over six objects, 95% CI 89.2–93.6%, ground-truth object poses',
+        ...labClip(
+          'hero-planner-view',
+          'Pick and place in simulation with the planner trajectories drawn',
+          true,
+        ),
+        caption: 'Isaac Lab',
       },
       {
-        label: 'Pick and place',
-        value: '92.4%',
-        note: '231 of 250 attempts, 95% CI 88.4–95.1%, object pose estimated from the wrist camera',
+        ...labClip('real-wrist-ep8', 'Real Hardware'),
+        kind: 'hardware',
+        caption: '2.5× playback speed',
+      },
+    ],
+    heroNote: 'Separate simulation and real-robot recordings of the pick-and-place task.',
+    cover: {
+      src: lab('real-wrist-ep8.webp'),
+      alt: 'Real wrist-camera view of the robot gripper carrying a red LEGO brick.',
+    },
+    coverVideo: { ...labClip('real-wrist-ep8', 'Real Hardware'), kind: 'hardware' },
+    resultsTitle: 'Evaluation',
+    results: [
+      {
+        label: 'Pick and place (simulation)',
+        value: '98.7%',
+        note: 'Simulation: 148 of 150 attempts, 95% Wilson CI 95.3–99.6%. FoundationPose wrist-camera perception and CRISP control; evaluated on 6 October 2026.',
+      },
+      {
+        label: 'Hardware evaluation',
+        value: 'TODO',
+        note: 'Real-robot demonstrations are available. A hardware evaluation sweep is still pending; no hardware success rate is reported.',
       },
     ],
     sections: [
@@ -145,9 +163,9 @@ export const projects: Project[] = [
         bullets: [
           'Sample: 500 candidate action sequences, 16 steps long. About 75% come from the learned flow-matching prior, the rest from Gaussian CEM sampling.',
           'Simulate: all candidates are rolled out in parallel in [Isaac Lab](https://github.com/isaac-sim/IsaacLab). The rollout model mimics the robot’s joint-impedance controller, including its 10 Nm torque limit.',
-          'Select: the candidates are scored by cost, and the best ones (the elite set) are combined into the next plan. Planning is asynchronous: the robot keeps executing the already committed part of the previous plan while the next one is computed.',
+          'Plan: MPPI combines the candidate action sequences using cost-based weights, favoring lower-cost rollouts. Planning is asynchronous: the robot keeps executing the committed part of the previous plan while the next one is computed.',
           'Control: [CRISP](https://github.com/learnsyslab/crisp_controllers) joint-impedance control, running on ros2_control at 1 kHz, turns the planned setpoints into torques.',
-          'Perception: in simulation, [FoundationPose](https://github.com/NVlabs/FoundationPose) estimates the object pose from rendered wrist-camera images before the grasp. While the object is carried, its pose follows the gripper and is corrected by FoundationPose measurements.',
+          'Perception: [FoundationPose](https://github.com/NVlabs/FoundationPose) estimates the object pose from wrist-camera images in simulation and on the real robot. After the gripper closes, the held-object pose is derived from the gripper pose and its attachment offset.',
         ],
       },
       {
@@ -157,9 +175,19 @@ export const projects: Project[] = [
       {
         heading: 'Tasks',
         bullets: [
-          'Grasp and lift: pick up one of six objects (a cube, two jars, a remote, a cylinder and a large block) and lift it to a goal.',
           'Pick and place: take a LEGO brick from a studded baseplate, carry it, place it on a goal cell, release it, retreat and return to the home pose.',
         ],
+      },
+      {
+        heading: 'More real-robot runs',
+        paragraphs: [
+          'Two more wrist-camera recordings from the real robot. Each clip is shown at 2.5× playback speed. Hardware evaluation remains TODO.',
+        ],
+        videos: [
+          { ...labClip('real-wrist-ep3', 'Real robot: wrist camera, episode 3'), kind: 'hardware' },
+          { ...labClip('real-wrist-ep6', 'Real robot: wrist camera, episode 6'), kind: 'hardware' },
+        ],
+        videoLayout: 'pairs',
       },
       {
         heading: 'Demo: pick and place',
@@ -167,24 +195,15 @@ export const projects: Project[] = [
           'Recordings from the simulation: the robot picks up the LEGO brick and places it on the green goal outline. Press play to watch.',
         ],
         videos: [
+          {
+            ...labClip('sim-pnp-current', 'Pick and place in simulation'),
+            caption: '3× playback speed',
+          },
           labClip('pick-place-1', 'Pick and place, run 1'),
           labClip('pick-place-2', 'Pick and place, run 2'),
           labClip('pick-place-3', 'Pick and place, run 3'),
         ],
-        videoLayout: 'featured',
-      },
-      {
-        heading: 'Demo: grasp and lift',
-        paragraphs: ['One recording for each of the six objects.'],
-        videos: [
-          labClip('grasp-cube', 'Cube'),
-          labClip('grasp-jar-a', 'Jar A'),
-          labClip('grasp-jar-b', 'Jar B'),
-          labClip('grasp-remote', 'Remote'),
-          labClip('grasp-cylinder', 'Cylinder'),
-          labClip('grasp-block-large', 'Large block'),
-        ],
-        videoLayout: 'grid',
+        videoLayout: 'pairs',
       },
       {
         heading: 'Setup',
@@ -195,7 +214,7 @@ export const projects: Project[] = [
       {
         heading: 'Status',
         paragraphs: [
-          'The work is moving from simulation to the real Franka Research 3. Camera, gripper and arm motion are working on the hardware. All results above are from simulation.',
+          'Pick-and-place runs on the real Franka Research 3 using wrist-camera perception. Hardware evaluation is TODO: perception remains noisy, and a sweep for quantitative results is pending. The reported success rate is from simulation.',
         ],
         images: [
           {
@@ -205,7 +224,23 @@ export const projects: Project[] = [
               'Real wrist-camera view: FoundationPose tracks a LEGO brick on the baseplate between the gripper jaws.',
           },
         ],
-        placeholderFigures: ['Photo or clip of the real robot (coming soon)'],
+      },
+      {
+        heading: 'Earlier work: grasp and lift',
+        collapsible: true,
+        paragraphs: [
+          'An earlier simulation study: 91.7% success (550 of 600 attempts over six objects, 95% CI 89.2–93.6%), using ground-truth object poses. This is a separate task and setup from the current pick-and-place evaluation.',
+          'One recording for each of the six objects.',
+        ],
+        videos: [
+          labClip('grasp-cube', 'Cube'),
+          labClip('grasp-jar-a', 'Jar A'),
+          labClip('grasp-jar-b', 'Jar B'),
+          labClip('grasp-remote', 'Remote'),
+          labClip('grasp-cylinder', 'Cylinder'),
+          labClip('grasp-block-large', 'Large block'),
+        ],
+        videoLayout: 'grid',
       },
     ],
     linksTitle: 'Built with',

@@ -6,10 +6,18 @@ const prefersReducedMotion = () =>
   typeof matchMedia !== 'undefined' && matchMedia('(prefers-reduced-motion: reduce)').matches
 
 /**
- * Simulation clip. The hero loops silently while visible (with a pause button), unless the user
+ * The hero loops silently while visible (with a pause button), unless the user
  * prefers reduced motion; every other clip shows a poster and starts on click.
  */
-export function VideoClip({ video, hero = false }: { video: ProjectVideo; hero?: boolean }) {
+export function VideoClip({
+  video,
+  hero = false,
+  preview = false,
+}: {
+  video: ProjectVideo
+  hero?: boolean
+  preview?: boolean
+}) {
   const { ui } = useContent()
   const ref = useRef<HTMLVideoElement>(null)
   // True after the visitor pressed Pause: scrolling back must not restart the clip.
@@ -46,7 +54,7 @@ export function VideoClip({ video, hero = false }: { video: ProjectVideo; hero?:
   }
 
   return (
-    <div className="relative aspect-video overflow-hidden bg-black">
+    <div className={`relative overflow-hidden bg-black ${preview ? 'h-full' : 'aspect-video'}`}>
       <video
         ref={ref}
         src={video.src}
@@ -54,7 +62,7 @@ export function VideoClip({ video, hero = false }: { video: ProjectVideo; hero?:
         muted
         loop={autoplay}
         playsInline
-        controls={!autoplay}
+        controls={!autoplay && !preview}
         preload={autoplay ? 'auto' : 'none'}
         aria-label={video.title}
         onPlay={() => setPlaying(true)}
@@ -62,7 +70,7 @@ export function VideoClip({ video, hero = false }: { video: ProjectVideo; hero?:
         className="h-full w-full object-contain"
       />
       <span className="pointer-events-none absolute left-3 top-3 rounded-full bg-slate-900/85 px-3 py-1 font-mono text-sm text-white">
-        {ui.video.simulation}
+        {video.kind === 'hardware' ? ui.video.hardware : ui.video.simulation}
       </span>
       {video.legend && (
         <span className="pointer-events-none absolute bottom-3 left-3 flex max-w-[calc(100%-6rem)] flex-wrap items-center gap-x-4 gap-y-1 rounded-lg bg-slate-900/85 px-3 py-1.5 text-sm text-white">
@@ -81,7 +89,7 @@ export function VideoClip({ video, hero = false }: { video: ProjectVideo; hero?:
           type="button"
           onClick={toggle}
           aria-label={playing ? ui.video.pauseLabel : ui.video.playLabel}
-          className="absolute bottom-3 right-3 rounded-full bg-slate-900/85 px-3 py-1.5 text-sm text-white hover:bg-slate-900"
+          className="absolute bottom-3 right-3 z-20 rounded-full bg-slate-900/85 px-3 py-1.5 text-sm text-white hover:bg-slate-900"
         >
           {playing ? ui.video.pause : ui.video.play}
         </button>

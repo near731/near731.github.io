@@ -46,12 +46,12 @@ function BannerText({ project, compact }: { project: Project; compact: boolean }
 export function HeroBanner({ project, compact = false }: { project: Project; compact?: boolean }) {
   const banner = project.banner
   if (!banner) return null
-  const video = compact ? undefined : project.heroVideo
+  const video = compact ? project.coverVideo : project.heroVideo
   const image = compact ? (project.cover ?? project.hero) : project.hero
   const [start, end] = banner.endLabels ?? []
 
   const media = video ? (
-    <VideoClip video={video} hero />
+    <VideoClip video={video} hero preview={compact} />
   ) : image ? (
     <img
       src={image.src}
