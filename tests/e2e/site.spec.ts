@@ -70,7 +70,7 @@ test('lab hero is a silent looping clip with a pause button', async ({ page }) =
   await expect(hero).toHaveJSProperty('loop', true)
   await expect(page.getByRole('button', { name: /Pause video|Play video/ }).first()).toBeVisible()
   await expect(page.getByText('Simulation').first()).toBeVisible()
-  await expect(page.locator('article video')).toHaveCount(14)
+  await expect(page.locator('article video')).toHaveCount(20)
 })
 
 test('reduced motion: no autoplay, native controls instead', async ({ page }) => {

@@ -32,7 +32,10 @@ function DataTable({ table }: { table: ProjectTable }) {
                     {cell}
                   </th>
                 ) : (
-                  <td key={i} className="px-4 py-2.5 font-mono text-sm text-muted">
+                  <td
+                    key={i}
+                    className="whitespace-nowrap px-4 py-2.5 font-mono text-sm text-muted"
+                  >
                     {cell}
                   </td>
                 ),

@@ -21,6 +21,34 @@ const labClip = (name: string, title: string, legend = false): ProjectVideo => (
   legend,
 })
 
+/** Per-object evaluation numbers: success, 95% Wilson CI, median steps (successes), median placement xy. */
+export const labSimRows = [
+  ['Brick (DUPLO 2x4)', '96/100', '90.2–98.4%', '185', '2.4 mm'],
+  ['Hartkorn', '98/100', '93.0–99.4%', '170', '3.6 mm'],
+  ['Grinder (EDEKA Chilisalz)', '94/100', '87.5–97.2%', '150', '3.6 mm'],
+  ['Old Spice', '94/100', '87.5–97.2%', '180', '3.1 mm'],
+  ['Freshona', '98/100', '93.0–99.4%', '144', '3.3 mm'],
+  ['Plug (Schuko adapter)', '96/100', '90.2–98.4%', '180', '3.2 mm'],
+]
+export const labHardwareRows = [
+  ['Brick (DUPLO 2x4)', '48/50', '86.5–98.9%', '116', '4.1 mm'],
+  ['Hartkorn', '50/50', '92.9–100.0%', '97', '3.8 mm'],
+  ['Grinder (EDEKA Chilisalz)', '46/50', '81.2–96.8%', '94.5', '4.4 mm'],
+  ['Freshona (small can)', '48/50', '86.5–98.9%', '94.5', '4.4 mm'],
+  ['Plug (Schuko adapter)', '34/50', '54.2–79.2%', '103', '5.9 mm'],
+]
+export const labTotals = {
+  sim: ['Total', '576/600 (96.0%)', '', '', ''],
+  hardware: ['Total', '226/250 (90.4%)', '', '', ''],
+}
+const labTableColumns = [
+  'Object',
+  'Success',
+  '95% Wilson CI',
+  'Median steps (successes)',
+  'Median placement error (xy)',
+]
+
 export interface ProjectImage {
   src: string
   alt: string
@@ -126,28 +154,28 @@ export const projects: Project[] = [
         caption: 'Isaac Lab',
       },
       {
-        ...labClip('real-wrist-ep8', 'Real Hardware'),
+        ...labClip('real-brick', 'Real Hardware'),
         kind: 'hardware',
         caption: '2.5× playback speed',
       },
     ],
     heroNote: 'Separate simulation and real-robot recordings of the pick-and-place task.',
     cover: {
-      src: lab('real-wrist-ep8.webp'),
+      src: lab('real-brick.webp'),
       alt: 'Real wrist-camera view of the robot gripper carrying a red LEGO brick.',
     },
-    coverVideo: { ...labClip('real-wrist-ep8', 'Real Hardware'), kind: 'hardware' },
+    coverVideo: { ...labClip('real-brick', 'Real Hardware'), kind: 'hardware' },
     resultsTitle: 'Evaluation',
     results: [
       {
         label: 'Pick and place (simulation)',
-        value: '98.7%',
-        note: 'Simulation: 148 of 150 attempts, 95% Wilson CI 95.3–99.6%. FoundationPose wrist-camera perception and CRISP control; evaluated on 6 October 2026.',
+        value: '96.0%',
+        note: 'Simulation: 576 of 600 attempts over six objects, 100 each. FoundationPose wrist-camera perception and CRISP control; evaluated on 30 October 2026.',
       },
       {
-        label: 'Hardware evaluation',
-        value: 'TODO',
-        note: 'Real-robot demonstrations are available. A hardware evaluation sweep is still pending; no hardware success rate is reported.',
+        label: 'Pick and place (real robot)',
+        value: '90.4%',
+        note: 'Real robot: 226 of 250 attempts over five objects, 50 each. A success is a placement within 10 mm and 5°; evaluated on 9 November 2026. Old Spice is not included yet.',
       },
     ],
     sections: [
@@ -175,33 +203,49 @@ export const projects: Project[] = [
       {
         heading: 'Tasks',
         bullets: [
-          'Pick and place: take a LEGO brick from a studded baseplate, carry it, place it on a goal cell, release it, retreat and return to the home pose.',
+          'Pick and place: take an object from the workspace, carry it, place it on a goal cell, release it, retreat and return to the home pose. One learned prior serves six everyday objects, from a DUPLO brick to an open can.',
         ],
       },
       {
-        heading: 'More real-robot runs',
+        heading: 'Simulation: six objects',
         paragraphs: [
-          'Two more wrist-camera recordings from the real robot. Each clip is shown at 2.5× playback speed. Hardware evaluation remains TODO.',
+          'One recorded success per object in Isaac Lab, shown at 3× playback speed. The table gives the evaluation of the full sweep: 100 wrist-FoundationPose episodes per object, seed 481, CRISP plant, graded on simulator truth.',
         ],
+        table: {
+          caption: 'Pick-and-place success in simulation by object',
+          columns: labTableColumns,
+          rows: labSimRows,
+          summaryRow: labTotals.sim,
+        },
         videos: [
-          { ...labClip('real-wrist-ep3', 'Real robot: wrist camera, episode 3'), kind: 'hardware' },
-          { ...labClip('real-wrist-ep6', 'Real robot: wrist camera, episode 6'), kind: 'hardware' },
+          labClip('sim-brick', 'Brick (DUPLO 2x4)'),
+          labClip('sim-hartkorn', 'Hartkorn'),
+          labClip('sim-grinder', 'Grinder (EDEKA Chilisalz)'),
+          labClip('sim-old-spice', 'Old Spice'),
+          labClip('sim-freshona', 'Freshona'),
+          labClip('sim-plug', 'Plug (Schuko adapter)'),
         ],
         videoLayout: 'pairs',
       },
       {
-        heading: 'Demo: pick and place',
+        heading: 'Real robot: six objects',
         paragraphs: [
-          'Recordings from the simulation: the robot picks up the LEGO brick and places it on the green goal outline. Press play to watch.',
+          'Wrist-camera recordings from the real Franka Research 3, one success per object, at 2.5× playback speed. The table gives the evaluation of five objects: 50 chained episodes each, seed 1, automatic object recognition. A success is a placement within 10 mm and 5°, read by FoundationPose after release. The operator hand-edited 60 of the 250 goals.',
         ],
+        table: {
+          caption: 'Pick-and-place success on the real robot by object',
+          columns: labTableColumns,
+          rows: labHardwareRows,
+          summaryRow: labTotals.hardware,
+          note: 'Old Spice is not evaluated yet and is not in the total. Three attempts were excluded and re-run: two robot-state communication faults and one placement FoundationPose could not re-read. The small Freshona runs the v7b prior, the other objects the v7 prior.',
+        },
         videos: [
-          {
-            ...labClip('sim-pnp-current', 'Pick and place in simulation'),
-            caption: '3× playback speed',
-          },
-          labClip('pick-place-1', 'Pick and place, run 1'),
-          labClip('pick-place-2', 'Pick and place, run 2'),
-          labClip('pick-place-3', 'Pick and place, run 3'),
+          { ...labClip('real-brick', 'Brick (DUPLO 2x4)'), kind: 'hardware' },
+          { ...labClip('real-hartkorn', 'Hartkorn'), kind: 'hardware' },
+          { ...labClip('real-grinder', 'Grinder (EDEKA Chilisalz)'), kind: 'hardware' },
+          { ...labClip('real-old-spice', 'Old Spice'), kind: 'hardware' },
+          { ...labClip('real-freshona', 'Freshona (small can)'), kind: 'hardware' },
+          { ...labClip('real-plug', 'Plug (Schuko adapter)'), kind: 'hardware' },
         ],
         videoLayout: 'pairs',
       },
@@ -214,7 +258,7 @@ export const projects: Project[] = [
       {
         heading: 'Status',
         paragraphs: [
-          'Pick-and-place runs on the real Franka Research 3 using wrist-camera perception. Hardware evaluation is TODO: perception remains noisy, and a sweep for quantitative results is pending. The reported success rate is from simulation.',
+          'Pick-and-place runs on the real Franka Research 3 using wrist-camera perception. The hardware evaluation covers five of the six objects; Old Spice is still to be evaluated, and the plug adapter is the hardest object (34 of 50).',
         ],
         images: [
           {

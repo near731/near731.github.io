@@ -1,40 +1,72 @@
+import { labHardwareRows, labSimRows, labTotals } from '@/data/projects'
+
+// Numbers in the evaluation tables only differ by decimal comma and the space before %.
+const localizeNumber = (cell: string) => cell.replace(/(\d)\.(\d)/g, '$1,$2').replace(/%/g, ' %')
+const objectNames: Record<string, string> = {
+  'Brick (DUPLO 2x4)': 'Baustein (DUPLO 2x4)',
+  Hartkorn: 'Hartkorn',
+  'Grinder (EDEKA Chilisalz)': 'Mühle (EDEKA Chilisalz)',
+  'Old Spice': 'Old Spice',
+  Freshona: 'Freshona',
+  'Freshona (small can)': 'Freshona (kleine Dose)',
+  'Plug (Schuko adapter)': 'Stecker (Schuko-Adapter)',
+}
+const tableCells = Object.fromEntries(
+  [...labSimRows, ...labHardwareRows, labTotals.sim, labTotals.hardware]
+    .flatMap((row) => row.slice(1))
+    .filter(Boolean)
+    .map((cell) => [cell, localizeNumber(cell)]),
+)
+
 export const labRosTranslations: Record<string, string> = {
+  ...objectNames,
+  ...tableCells,
+  '96.0%': '96,0 %',
+  '90.4%': '90,4 %',
+  'Pick and place (real robot)': 'Pick-and-Place (realer Roboter)',
+  'Simulation: 576 of 600 attempts over six objects, 100 each. FoundationPose wrist-camera perception and CRISP control; evaluated on 30 October 2026.':
+    'Simulation: 576 von 600 Versuchen mit sechs Objekten, je 100. FoundationPose mit Handgelenk-Kamera und CRISP-Regelung; ausgewertet am 30. Oktober 2026.',
+  'Real robot: 226 of 250 attempts over five objects, 50 each. A success is a placement within 10 mm and 5°; evaluated on 9 November 2026. Old Spice is not included yet.':
+    'Realer Roboter: 226 von 250 Versuchen mit fünf Objekten, je 50. Ein Erfolg ist eine Platzierung innerhalb von 10 mm und 5°; ausgewertet am 9. November 2026. Old Spice ist noch nicht enthalten.',
+  'Pick and place: take an object from the workspace, carry it, place it on a goal cell, release it, retreat and return to the home pose. One learned prior serves six everyday objects, from a DUPLO brick to an open can.':
+    'Aufnehmen und Platzieren: Ein Objekt aus dem Arbeitsbereich aufnehmen, zum Zielfeld transportieren, dort absetzen und loslassen, den Greifer zurückziehen und zur Ausgangsposition fahren. Ein trainierter Prior bedient sechs Alltagsobjekte, vom DUPLO-Baustein bis zur offenen Dose.',
+  'Simulation: six objects': 'Simulation: sechs Objekte',
+  'One recorded success per object in Isaac Lab, shown at 3× playback speed. The table gives the evaluation of the full sweep: 100 wrist-FoundationPose episodes per object, seed 481, CRISP plant, graded on simulator truth.':
+    'Je ein aufgezeichneter Erfolg pro Objekt in Isaac Lab, mit 3-facher Wiedergabegeschwindigkeit. Die Tabelle zeigt die Auswertung des gesamten Durchlaufs: 100 Episoden mit FoundationPose über die Handgelenk-Kamera pro Objekt, Seed 481, CRISP-Regelstrecke, bewertet anhand der Simulator-Wahrheit.',
+  'Pick-and-place success in simulation by object':
+    'Pick-and-Place-Erfolg in der Simulation nach Objekt',
+  Object: 'Objekt',
+  Success: 'Erfolg',
+  '95% Wilson CI': '95-%-Wilson-Konfidenzintervall',
+  'Median steps (successes)': 'Median der Schritte (erfolgreiche Versuche)',
+  'Median placement error (xy)': 'Median des Platzierungsfehlers (xy)',
+  Total: 'Gesamt',
+  'Real robot: six objects': 'Realer Roboter: sechs Objekte',
+  'Wrist-camera recordings from the real Franka Research 3, one success per object, at 2.5× playback speed. The table gives the evaluation of five objects: 50 chained episodes each, seed 1, automatic object recognition. A success is a placement within 10 mm and 5°, read by FoundationPose after release. The operator hand-edited 60 of the 250 goals.':
+    'Aufnahmen der Handgelenk-Kamera am realen Franka Research 3, ein Erfolg pro Objekt, mit 2,5-facher Wiedergabegeschwindigkeit. Die Tabelle zeigt die Auswertung von fünf Objekten: je 50 aufeinanderfolgende Episoden, Seed 1, automatische Objekterkennung. Ein Erfolg ist eine Platzierung innerhalb von 10 mm und 5°, nach dem Loslassen von FoundationPose gemessen. Die Bedienperson hat 60 der 250 Zielpositionen von Hand angepasst.',
+  'Pick-and-place success on the real robot by object':
+    'Pick-and-Place-Erfolg am realen Roboter nach Objekt',
+  'Old Spice is not evaluated yet and is not in the total. Three attempts were excluded and re-run: two robot-state communication faults and one placement FoundationPose could not re-read. The small Freshona runs the v7b prior, the other objects the v7 prior.':
+    'Old Spice ist noch nicht ausgewertet und nicht in der Gesamtzahl enthalten. Drei Versuche wurden ausgeschlossen und wiederholt: zwei Kommunikationsfehler beim Roboterzustand und eine Platzierung, die FoundationPose nicht erneut erfassen konnte. Die kleine Freshona-Dose läuft mit dem v7b-Prior, die übrigen Objekte mit dem v7-Prior.',
+  'Pick-and-place runs on the real Franka Research 3 using wrist-camera perception. The hardware evaluation covers five of the six objects; Old Spice is still to be evaluated, and the plug adapter is the hardest object (34 of 50).':
+    'Pick-and-Place läuft auf dem realen Franka Research 3 mit Wahrnehmung über die Handgelenk-Kamera. Die Hardware-Auswertung umfasst fünf der sechs Objekte; Old Spice steht noch aus, und der Stecker-Adapter ist das schwierigste Objekt (34 von 50).',
   'Real Hardware': 'Reale Hardware',
   '2.5× playback speed': '2,5-fache Wiedergabegeschwindigkeit',
   '3× playback speed': '3-fache Wiedergabegeschwindigkeit',
   'Real wrist-camera view of the robot gripper carrying a red LEGO brick.':
     'Blick aus der Handgelenk-Kamera des realen Roboters: Der Greifer trägt einen roten LEGO-Stein.',
-  'Two more wrist-camera recordings from the real robot. Each clip is shown at 2.5× playback speed. Hardware evaluation remains TODO.':
-    'Zwei weitere Aufnahmen der Handgelenk-Kamera am realen Roboter. Jeder Clip wird mit 2,5-facher Geschwindigkeit abgespielt. Hardware-Auswertung: weiterhin TODO.',
   'A sampling-based MPC planner with a learned flow-matching prior, developed in Isaac Lab and deployed on a real Franka Research 3 for pick-and-place.':
     'Ein samplingbasierter MPC-Planer mit einem trainierten Flow-Matching-Prior, entwickelt in Isaac Lab und für Pick-and-Place auf einem realen Franka Research 3 eingesetzt.',
   'Pick and place in simulation': 'Pick-and-Place in der Simulation',
   'Isaac Lab · 3× playback speed': 'Isaac Lab · 3-fache Wiedergabegeschwindigkeit',
-  'Real robot: wrist camera, episode 8': 'Realer Roboter: Handgelenk-Kamera, Episode 8',
-  'Real robot: wrist camera, episode 3': 'Realer Roboter: Handgelenk-Kamera, Episode 3',
-  'Real robot: wrist camera, episode 6': 'Realer Roboter: Handgelenk-Kamera, Episode 6',
-  'Real robot: wrist camera, episode 7': 'Realer Roboter: Handgelenk-Kamera, Episode 7',
-  '12 October 2026 · 2.5× playback speed': '12. Oktober 2026 · 2,5-fache Wiedergabegeschwindigkeit',
   'Separate simulation and real-robot recordings of the pick-and-place task.':
     'Separate Aufnahmen der Pick-and-Place-Aufgabe aus der Simulation und vom realen Roboter.',
   Evaluation: 'Auswertung',
   'Pick and place (simulation)': 'Pick-and-Place (Simulation)',
-  '98.7%': '98,7 %',
-  'Simulation: 148 of 150 attempts, 95% Wilson CI 95.3–99.6%. FoundationPose wrist-camera perception and CRISP control; evaluated on 6 October 2026.':
-    'Simulation: 148 von 150 Versuchen; 95-%-Wilson-Konfidenzintervall: 95,3–99,6 %. FoundationPose mit Handgelenk-Kamera und CRISP-Regelung; ausgewertet am 6. Oktober 2026.',
-  'Hardware evaluation': 'Hardware-Auswertung',
-  TODO: 'TODO',
-  'Real-robot demonstrations are available. A hardware evaluation sweep is still pending; no hardware success rate is reported.':
-    'Demonstrationen am realen Roboter liegen vor. Die systematische Hardware-Auswertung steht noch aus; eine Erfolgsquote für die Hardware wird daher noch nicht angegeben.',
   'Plan: MPPI combines the candidate action sequences using cost-based weights, favoring lower-cost rollouts. Planning is asynchronous: the robot keeps executing the committed part of the previous plan while the next one is computed.':
     'Planung: MPPI kombiniert die möglichen Aktionssequenzen mit kostenabhängigen Gewichten und bevorzugt Rollouts mit geringeren Kosten. Die Planung läuft asynchron: Während der nächste Plan berechnet wird, führt der Roboter den bereits festgelegten Abschnitt des vorherigen Plans weiter aus.',
   'Perception: [FoundationPose](https://github.com/NVlabs/FoundationPose) estimates the object pose from wrist-camera images in simulation and on the real robot. After the gripper closes, the held-object pose is derived from the gripper pose and its attachment offset.':
     'Wahrnehmung: [FoundationPose](https://github.com/NVlabs/FoundationPose) schätzt die Objektpose aus Bildern der Handgelenk-Kamera, sowohl in der Simulation als auch am realen Roboter. Nach dem Schließen des Greifers wird die Pose des gehaltenen Objekts aus der Greiferpose und dem relativen Versatz zwischen Greifer und Objekt abgeleitet.',
-  'More real-robot runs': 'Weitere Durchläufe am realen Roboter',
-  'Wrist-camera recordings from 12 October 2026. Each clip is shown at 2.5× playback speed. These demonstrations are not a hardware evaluation sweep.':
-    'Aufnahmen der Handgelenk-Kamera vom 12. Oktober 2026. Jeder Clip wird mit 2,5-facher Geschwindigkeit abgespielt. Diese Demonstrationen ersetzen keine systematische Hardware-Auswertung.',
-  'Pick-and-place runs on the real Franka Research 3 using wrist-camera perception. Hardware evaluation is TODO: perception remains noisy, and a sweep for quantitative results is pending. The reported success rate is from simulation.':
-    'Pick-and-Place läuft auf dem realen Franka Research 3 mit Wahrnehmung über die Handgelenk-Kamera. Hardware-Auswertung: TODO. Die Wahrnehmung ist noch verrauscht; eine systematische Auswertung für quantitative Ergebnisse steht aus. Die angegebene Erfolgsquote stammt aus der Simulation.',
   'Earlier work: grasp and lift': 'Frühere Arbeit: Greifen und Anheben',
   'An earlier simulation study: 91.7% success (550 of 600 attempts over six objects, 95% CI 89.2–93.6%), using ground-truth object poses. This is a separate task and setup from the current pick-and-place evaluation.':
     'Eine frühere Simulationsstudie: 91,7 % Erfolg (550 von 600 Versuchen mit sechs Objekten; 95-%-Konfidenzintervall: 89,2–93,6 %) mit bekannten Objektposen (Ground Truth). Aufgabe und Versuchsaufbau unterscheiden sich von der aktuellen Pick-and-Place-Auswertung.',

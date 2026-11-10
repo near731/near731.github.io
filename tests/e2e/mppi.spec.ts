@@ -11,29 +11,37 @@ test('MPPI page separates real footage and simulation metrics in both languages'
     'Pick and place in simulation with the planner trajectories drawn',
   )
   await expect(videos.nth(1)).toHaveAttribute('aria-label', 'Real Hardware')
-  await expect(videos.nth(1)).toHaveAttribute('src', /real-wrist-ep8/)
   await expect(
     videos.nth(1).locator('..').getByText('Real Hardware', { exact: true }),
   ).toBeVisible()
   await expect(page.getByText(/12 October 2026/)).toHaveCount(0)
-  await expect(page.getByText('98.7%', { exact: true })).toBeVisible()
-  await expect(page.getByText('92.4%', { exact: true })).toHaveCount(0)
-  await expect(page.getByText('TODO', { exact: true })).toBeVisible()
-  const runs = page.getByRole('heading', { name: 'More real-robot runs' }).locator('..')
-  await expect(runs.locator('video')).toHaveCount(2)
-  await expect(runs.locator('video').first()).toBeVisible()
-  const sim = page.getByRole('heading', { name: 'Demo: pick and place' }).locator('..')
-  await expect(sim.locator('video')).toHaveCount(4)
-  await expect(sim.locator('video[aria-label*="trajectories"]')).toHaveCount(0)
-  const boxes = await sim.locator('video').evaluateAll((elements) =>
-    elements.map((el) => {
-      const rect = el.getBoundingClientRect()
-      return { x: rect.x, y: rect.y }
-    }),
-  )
-  expect(boxes[0].y).toBe(boxes[1].y)
-  expect(boxes[2].y).toBe(boxes[3].y)
-  expect(boxes[2].y).toBeGreaterThan(boxes[0].y)
+  await expect(videos.nth(1)).toHaveAttribute('src', /real-brick/)
+  await expect(page.getByText('96.0%', { exact: true })).toBeVisible()
+  await expect(page.getByText('90.4%', { exact: true })).toBeVisible()
+  await expect(page.getByText('98.7%', { exact: true })).toHaveCount(0)
+  await expect(page.getByText('TODO')).toHaveCount(0)
+  for (const [heading, count] of [
+    ['Simulation: six objects', 'sim'],
+    ['Real robot: six objects', 'real'],
+  ] as const) {
+    const section = page.getByRole('heading', { name: heading }).locator('..')
+    await expect(section.locator('video')).toHaveCount(6)
+    await expect(section.locator('video').first()).toHaveAttribute('src', new RegExp(count))
+    const boxes = await section.locator('video').evaluateAll((elements) =>
+      elements.map((el) => {
+        const rect = el.getBoundingClientRect()
+        return { x: rect.x, y: rect.y }
+      }),
+    )
+    // Two columns, three rows.
+    for (let row = 0; row < 3; row++) expect(boxes[row * 2].y).toBe(boxes[row * 2 + 1].y)
+    expect(boxes[2].y).toBeGreaterThan(boxes[0].y)
+    expect(boxes[4].y).toBeGreaterThan(boxes[2].y)
+    expect(boxes[0].x).toBeLessThan(boxes[1].x)
+  }
+  await expect(page.getByText('576/600 (96.0%)')).toBeVisible()
+  await expect(page.getByText('226/250 (90.4%)')).toBeVisible()
+  await expect(page.getByText(/hand-edited 60 of the 250 goals/)).toBeVisible()
   const older = page
     .locator('details')
     .filter({ has: page.getByText('Earlier work: grasp and lift') })
@@ -43,7 +51,8 @@ test('MPPI page separates real footage and simulation metrics in both languages'
   await expect(older.getByText(/91.7% success/)).toBeVisible()
 
   await page.getByRole('button', { name: 'Deutsch', exact: true }).click()
-  await expect(page.getByText('98,7 %', { exact: true })).toBeVisible()
+  await expect(page.getByText('96,0 %', { exact: true })).toBeVisible()
+  await expect(page.getByText('226/250 (90,4 %)')).toBeVisible()
   await expect(videos.nth(1)).toHaveAttribute('aria-label', 'Reale Hardware')
   await expect(
     videos.nth(1).locator('..').getByText('Reale Hardware', { exact: true }),
@@ -55,13 +64,13 @@ test('MPPI page separates real footage and simulation metrics in both languages'
   }
 })
 
-test('episode 8 card preview has an independent pause control and opens the project', async ({
+test('brick card preview has an independent pause control and opens the project', async ({
   page,
 }) => {
   await page.emulateMedia({ reducedMotion: 'no-preference' })
   await page.goto('/projects')
   const video = page.locator('main video').first()
-  await expect(video).toHaveAttribute('src', /real-wrist-ep8/)
+  await expect(video).toHaveAttribute('src', /real-brick/)
   await expect(video).toHaveJSProperty('muted', true)
   await expect(video).toHaveJSProperty('loop', true)
   await expect(video).toHaveJSProperty('controls', false)
